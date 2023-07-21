@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatData, addMessage } from "../redux/chatSlice";
 import io from "socket.io-client";
-import '../styles/Chat.css';
+import "../styles/Chat.css";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Chat = () => {
         className="d-flex justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
-        <div className="spinner-border text-primary" role="status">
+        <div className="spinner-border text-dark" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -70,9 +70,8 @@ const Chat = () => {
     // Отправляем новое сообщение на сервер через сокет
     const socket = io("http://localhost:3000");
     socket.emit("newMessage", newMessage);
-
     // Очищаем поле ввода после отправки
-    setMessageText("");
+    document.querySelector('input').value = '';
   };
 
   return (
@@ -111,19 +110,31 @@ const Chat = () => {
           {/* Чат и форма для ввода нового сообщения */}
           <div className="card">
             <div className="card-body message-list-container">
-              <ul className="list-group message-list">
-                {messages
-                  .filter(
-                    (message) =>
-                      selectedChannel === null ||
-                      message.channelId === selectedChannel
-                  )
-                  .map((message) => (
-                    <li key={message.id} className="list-group-item">
-                      {message.body}
-                    </li>
-                  ))}
-              </ul>
+              {selectedChannel === null ? (
+                <img
+                  className="kotik"
+                  src="https://i.pinimg.com/564x/52/41/43/524143ccca0b9332b2625155fb05ed9e.jpg"
+                  alt="kotik"
+                />
+              ) : (
+                <ul className="list-group message-list">
+                  {/* Display only the last 'maxDisplayedMessages' messages */}
+                  {messages
+                    .filter(
+                      (message) =>
+                        selectedChannel === null ||
+                        message.channelId === selectedChannel
+                    )
+                    .map((message) => (
+                      <li key={message.id} className="list-group-item">
+                        <span className="message-sender">
+                          {message.username}:
+                        </span>{" "}
+                        {message.body}
+                      </li>
+                    ))}
+                </ul>
+              )}
             </div>
           </div>
 
@@ -132,7 +143,7 @@ const Chat = () => {
             <form onSubmit={handleSendMessage}>
               <div className="input-group">
                 <div className="input-group-append">
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn btn-dark">
                     Отправить
                   </button>
                 </div>
