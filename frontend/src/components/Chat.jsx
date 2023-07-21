@@ -143,7 +143,7 @@ const Chat = () => {
             <form onSubmit={handleSendMessage}>
               <div className="input-group">
                 <div className="input-group-append">
-                  <button type="submit" className="btn btn-dark">
+                  <button type="submit" className="btn btn-success">
                     Отправить
                   </button>
                 </div>

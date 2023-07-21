@@ -16,3 +16,7 @@
 .message-sender {
     color: green;
 }
+.list-group-item.active {
+    background-color: green;
+    color: yellow;
+  }
