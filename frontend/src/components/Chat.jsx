@@ -1,22 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchChatData } from '../redux/chatSlice';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchChatData, addMessage } from "../redux/chatSlice";
+import io from "socket.io-client";
 
 const Chat = () => {
   const dispatch = useDispatch();
-  const { channels, messages, loading, error } = useSelector((state) => state.chat);
+  const { channels, messages, loading, error } = useSelector(
+    (state) => state.chat
+  );
   const [selectedChannel, setSelectedChannel] = useState(null);
+  const [messageText, setMessageText] = useState("");
 
   useEffect(() => {
     // Получение данных с сервера при открытии страницы с чатом
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       dispatch(fetchChatData(token));
     }
+
+    // Подключаемся к серверу сокетов
+    const socket = io("http://localhost:3000");
+
+    // Подписываемся на событие нового сообщения
+    socket.on("newMessage", (payload) => {
+      dispatch(addMessage(payload)); // Добавляем новое сообщение в Redux store
+    });
+
+    // Закрываем соединение при размонтировании компонента
+    return () => {
+      socket.disconnect();
+    };
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -29,8 +55,23 @@ const Chat = () => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    // Add your logic here to send the message
-    // For example, dispatch an action to add the message to the store
+
+    if (!messageText.trim() || !selectedChannel) {
+      return;
+    }
+
+    const newMessage = {
+      body: messageText,
+      channelId: selectedChannel,
+      username: "admin", // Вам может понадобиться указать имя пользователя здесь
+    };
+
+    // Отправляем новое сообщение на сервер через сокет
+    const socket = io("http://localhost:3000");
+    socket.emit("newMessage", newMessage);
+
+    // Очищаем поле ввода после отправки
+    setMessageText("");
   };
 
   return (
@@ -43,7 +84,9 @@ const Chat = () => {
             {channels.map((channel) => (
               <li
                 key={channel.id}
-                className={`list-group-item ${selectedChannel === channel.id ? 'active' : ''}`}
+                className={`list-group-item ${
+                  selectedChannel === channel.id ? "active" : ""
+                }`}
                 onClick={() => handleChannelClick(channel.id)}
               >
                 {channel.name}
@@ -54,7 +97,14 @@ const Chat = () => {
 
         {/* Показ выбранного канала */}
         <div className="col-md-8">
-          <h2>{selectedChannel ? `Канал: ${channels.find((channel) => channel.id === selectedChannel)?.name}` : 'Выберите канал'}</h2>
+          <h2>
+            {selectedChannel
+              ? `Канал: ${
+                  channels.find((channel) => channel.id === selectedChannel)
+                    ?.name
+                }`
+              : "Выберите канал"}
+          </h2>
           <hr />
 
           {/* Чат и форма для ввода нового сообщения */}
@@ -62,10 +112,14 @@ const Chat = () => {
             <div className="card-body message-list">
               <ul className="list-group">
                 {messages
-                  .filter((message) => selectedChannel === null || message.channelId === selectedChannel)
+                  .filter(
+                    (message) =>
+                      selectedChannel === null ||
+                      message.channelId === selectedChannel
+                  )
                   .map((message) => (
                     <li key={message.id} className="list-group-item">
-                      {message.text}
+                      {message.body}
                     </li>
                   ))}
               </ul>
@@ -77,9 +131,16 @@ const Chat = () => {
             <form onSubmit={handleSendMessage}>
               <div className="input-group">
                 <div className="input-group-append">
-                  <button type="submit" className="btn btn-primary">Отправить</button>
+                  <button type="submit" className="btn btn-primary">
+                    Отправить
+                  </button>
                 </div>
-                <input type="text" className="form-control" placeholder="Введите сообщение" />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Введите сообщение"
+                  onChange={(e) => setMessageText(e.target.value)}
+                />
               </div>
             </form>
           </div>

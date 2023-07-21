@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+export const addMessage = (message) => ({
+  type: 'chat/addMessage',
+  payload: message,
+});
+
 // Создаем асинхронный thunk для получения данных с сервера
 export const fetchChatData = createAsyncThunk('chat/fetchChatData', async (token) => {
   const response = await axios.get('/api/v1/data', {
@@ -17,7 +22,11 @@ const chatSlice = createSlice({
     loading: false, // флаг загрузки данных
     error: null, // ошибка при получении данных
   },
-  reducers: {},
+  reducers: {
+    addMessage: (state, action) => {
+      state.messages.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChatData.pending, (state) => {
@@ -32,7 +41,7 @@ const chatSlice = createSlice({
       .addCase(fetchChatData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      });
+      })
   },
 });
 
