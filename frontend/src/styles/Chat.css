@@ -1,0 +1,10 @@
+.message-list-container {
+    height: 300px; /* Set the desired height for the message container */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .message-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }

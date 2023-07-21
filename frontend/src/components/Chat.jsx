@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchChatData, addMessage } from "../redux/chatSlice";
 import io from "socket.io-client";
+import '../styles/Chat.css';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -109,8 +110,8 @@ const Chat = () => {
 
           {/* Чат и форма для ввода нового сообщения */}
           <div className="card">
-            <div className="card-body message-list">
-              <ul className="list-group">
+            <div className="card-body message-list-container">
+              <ul className="list-group message-list">
                 {messages
                   .filter(
                     (message) =>
