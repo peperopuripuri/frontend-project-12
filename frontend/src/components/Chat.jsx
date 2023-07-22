@@ -47,7 +47,16 @@ const Chat = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <div className="alert alert-danger" role="alert">
+          Error: {error}
+        </div>
+      </div>
+    );
   }
 
   const handleChannelClick = (channelId) => {
@@ -71,7 +80,7 @@ const Chat = () => {
     const socket = io("http://localhost:3000");
     socket.emit("newMessage", newMessage);
     // Очищаем поле ввода после отправки
-    document.querySelector('input').value = '';
+    document.querySelector("input").value = "";
   };
 
   return (
@@ -142,17 +151,17 @@ const Chat = () => {
           <div className="mt-4">
             <form onSubmit={handleSendMessage}>
               <div className="input-group">
-                <div className="input-group-append">
-                  <button type="submit" className="btn btn-success">
-                    Отправить
-                  </button>
-                </div>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Введите сообщение"
                   onChange={(e) => setMessageText(e.target.value)}
                 />
+                <div className="input-group-append">
+                  <button type="submit" className="btn btn-success">
+                    Отправить
+                  </button>
+                </div>
               </div>
             </form>
           </div>

@@ -8,15 +8,23 @@
   margin: 0;
 }
 .card {
-    height: 75vh !important;
+  height: 75vh !important;
 }
 .kotik {
-    height: 100%;
+  height: 100%;
 }
 .message-sender {
-    color: green;
+  color: green;
 }
 .list-group-item.active {
-    background-color: green;
-    color: yellow;
-  }
+  background-color: green;
+  color: yellow;
+}
+.form-control {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin-right: 1%;
+}
+.form-control:focus {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgb(53, 198, 0);
+}
