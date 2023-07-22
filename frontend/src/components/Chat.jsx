@@ -121,9 +121,9 @@ const Chat = () => {
             <div className="card-body message-list-container">
               {selectedChannel === null ? (
                 <img
-                  className="kotik"
-                  src="https://i.pinimg.com/564x/52/41/43/524143ccca0b9332b2625155fb05ed9e.jpg"
-                  alt="kotik"
+                  className="animal"
+                  src="https://i.pinimg.com/564x/d7/50/82/d750822ebb96c71268d77a8c39db8997.jpg"
+                  alt="animal"
                 />
               ) : (
                 <ul className="list-group message-list">

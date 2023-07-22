@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { Container, Row, Col, Form as BootstrapForm, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import '../styles/Login.css';
 
 const LoginPage = () => {
   // Схема для валидации формы
@@ -62,7 +63,7 @@ const LoginPage = () => {
                   <ErrorMessage name="password" component="div" className="text-danger" />
                 </BootstrapForm.Group>
 
-                <Button type="submit" variant="primary" className="mt-3" disabled={isSubmitting}>
+                <Button type="submit" variant="primary" className="mt-3 btn-success" disabled={isSubmitting}>
                   Войти
                 </Button>
               </Form>

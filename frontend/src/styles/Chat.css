@@ -1,3 +1,6 @@
+body {
+  background: url('https://i.pinimg.com/564x/6c/89/ed/6c89ed6d624aa011dc0aa31c0632f7cf.jpg') center;
+}
 .message-list-container {
   height: 300px;
   overflow-y: auto;
@@ -10,8 +13,9 @@
 .card {
   height: 75vh !important;
 }
-.kotik {
+.animal {
   height: 100%;
+  width: 100%;
 }
 .message-sender {
   color: green;
