@@ -4,7 +4,7 @@ import '../styles/NotFound.css';
 
 const NotFound = () => {
   return (
-    <Container>
+    <Container className='notFoundWrapper'>
       <Row className="justify-content-center mt-5">
         <Col xs={12} sm={8} md={6} lg={4}>
           <div className="text-center">

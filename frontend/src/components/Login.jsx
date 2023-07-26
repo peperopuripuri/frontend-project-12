@@ -8,8 +8,8 @@ import '../styles/Login.css';
 const LoginPage = () => {
   // Схема для валидации формы
   const validationSchema = yup.object().shape({
-    username: yup.string().required('Введите имя пользователя'),
-    password: yup.string().required('Введите пароль'),
+    username: yup.string().required('Введите имя пользователя 🤨'),
+    password: yup.string().required('Введите пароль 🥱'),
   });
 
   // Обработка отправки формы
@@ -19,6 +19,7 @@ const LoginPage = () => {
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('token', response.data.token); // Сохраняем токен в localStorage
+          localStorage.setItem('username', response.data.username);
           window.location.href = '/'; // Редирект на страницу с чатом
         } else {
           setStatus({ error: response.data.message }); // Обрабатываем ошибку авторизации
@@ -26,7 +27,7 @@ const LoginPage = () => {
       })
       .catch((error) => {
         console.error('Ошибка при авторизации:', error);
-        setStatus({ error: 'Произошла ошибка при авторизации' });
+        setStatus({ error: 'Произошла ошибка при авторизации 😬' });
       })
       .finally(() => {
         setSubmitting(false);
@@ -34,7 +35,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Container>
+    <Container className='loginWrapper'>
       <Row className="justify-content-center mt-5">
         <Col xs={12} sm={8} md={6} lg={4}>
           <h2 className="mb-4">Форма авторизации</h2>
@@ -66,6 +67,7 @@ const LoginPage = () => {
                 <Button type="submit" variant="primary" className="mt-3 btn-success" disabled={isSubmitting}>
                   Войти
                 </Button>
+                <Button className='mt-3 regBtn' variant="dark" href='/signup'>Регистрация</Button>
               </Form>
             )}
           </Formik>

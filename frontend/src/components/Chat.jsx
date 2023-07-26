@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
+import { Modal, Button, Form, Alert, Container } from "react-bootstrap";
 import {
   fetchChatData,
   addMessage,
@@ -26,6 +26,7 @@ const Chat = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [showModalAddChannel, setShowModalAddChannel] = useState(false);
   const [showModalRenameChannel, setShowModalRenameChannel] = useState(false);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     // Получение данных с сервера при открытии страницы с чатом
@@ -77,16 +78,41 @@ const Chat = () => {
   }
 
   if (error) {
-    return (
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
-      >
-        <div className="alert alert-danger" role="alert">
-          Error: {error}
-        </div>
-      </div>
-    );
+    if (error === "Request failed with status code 401") {
+      return (
+        <Container
+          className="d-flex justify-content-center align-items-center flex-column"
+          style={{ height: "100vh" }}
+        >
+          <Alert variant="danger">Неавторизованный пользователь!!! Войдите или зарегистрируйтесь 😪</Alert>
+          <Form>
+            <Button className="mt-3 regBtn" variant="dark" href="/signup">
+              Регистрация
+            </Button>
+            <Button className="mt-3 logBtn" variant="dark" href="/login">
+              Войти
+            </Button>
+          </Form>
+        </Container>
+      );
+    } else {
+      return (
+        <Container
+          className="d-flex justify-content-center align-items-center flex-column"
+          style={{ height: "100vh" }}
+        >
+          <Alert variant="danger">{error}</Alert>
+          <Form>
+            <Button className="mt-3 regBtn" variant="dark" href="/signup">
+              Регистрация
+            </Button>
+            <Button className="mt-3 logBtn" variant="dark" href="/login">
+              Войти
+            </Button>
+          </Form>
+        </Container>
+      );
+    }
   }
 
   const handleChannelClick = (channelId) => {
@@ -97,19 +123,19 @@ const Chat = () => {
     e.preventDefault();
 
     if (!selectedChannel) {
-      setWarningMessage("Надо выбрать канал 😩")
+      setWarningMessage("Надо выбрать канал 😩");
       return;
     }
 
     if (!messageText.trim()) {
-      setWarningMessage("Поле для ввода пустое 🤕")
+      setWarningMessage("Поле для ввода пустое 🤕");
       return;
     }
 
     const newMessage = {
       body: messageText,
       channelId: selectedChannel,
-      username: "admin", // Вам может понадобиться указать имя пользователя здесь
+      username: username, // Вам может понадобиться указать имя пользователя здесь
     };
 
     // Отправляем новое сообщение на сервер через сокет
@@ -117,7 +143,7 @@ const Chat = () => {
     socket.emit("newMessage", newMessage);
     // Очищаем поле ввода после отправки
     document.querySelector(".send-mess-input").value = "";
-    setWarningMessage("")
+    setWarningMessage("");
   };
 
   const handleCloseModalAddChannel = () => {
@@ -147,7 +173,7 @@ const Chat = () => {
   const handleAddChannel = (e) => {
     e.preventDefault();
     const socket = createSocket();
-    const names = channels.map(chan => chan.name);
+    const names = channels.map((chan) => chan.name);
 
     if (!newChannelName.trim()) {
       setWarning("Имя канала не должно быть пустым 😏");
@@ -162,7 +188,7 @@ const Chat = () => {
     const newChannel = {
       id: channels.length + 1, // Assuming unique channel IDs, you can change this accordingly
       name: newChannelName.trim(),
-      creator: "admin", // Replace this with the actual creator's name or user ID
+      creator: username, // Replace this with the actual creator's name or user ID
       removable: true, // Assuming the creator can remove this channel, set to false if not
     };
 
@@ -191,14 +217,14 @@ const Chat = () => {
       setWarning("");
       dispatch(removeChannel(selectedChannel));
     } else {
-      setWarning("Нельзя удалять стандартные каналы 😭")
+      setWarning("Нельзя удалять стандартные каналы 😭");
     }
   };
 
   const handleRenameChannel = (e) => {
     e.preventDefault();
     const socket = createSocket();
-    const names = channels.map(chan => chan.name);
+    const names = channels.map((chan) => chan.name);
 
     if (!newChannelName.trim()) {
       setWarning("Имя канала не должно быть пустым 😏");
@@ -215,7 +241,10 @@ const Chat = () => {
       return;
     }
 
-    socket.emit("renameChannel", {id: selectedChannel, name: newChannelName.trim()});
+    socket.emit("renameChannel", {
+      id: selectedChannel,
+      name: newChannelName.trim(),
+    });
 
     setNewChannelName("");
     handleCloseModalRenameChannel();
@@ -255,12 +284,20 @@ const Chat = () => {
                 <Button variant="secondary" onClick={handleCancelDelete}>
                   Отмена
                 </Button>
-                  <Button autoFocus variant="danger" onClick={handleConfirmDelete}>
-                    Удалить
-                  </Button>
+                <Button
+                  autoFocus
+                  variant="danger"
+                  onClick={handleConfirmDelete}
+                >
+                  Удалить
+                </Button>
               </Modal.Footer>
             </Modal>
           </div>
+          <br />
+          {warningMessage && (
+              <Alert variant="warning">{warningMessage}</Alert>
+            )}
           {/* Выпадающее меню с кнопками управления каналом */}
           <div className="dropdown mt-4">
             <button
@@ -384,7 +421,6 @@ const Chat = () => {
 
           {/* Чат и форма для ввода нового сообщения */}
           <div className="card">
-          {warningMessage && <Alert variant="warning">{warningMessage}</Alert>}
             <div className="card-body message-list-container">
               {selectedChannel === null ? (
                 <img

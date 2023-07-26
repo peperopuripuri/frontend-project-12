@@ -1,9 +1,7 @@
 #root {
   background: url('https://i.pinimg.com/564x/6c/89/ed/6c89ed6d624aa011dc0aa31c0632f7cf.jpg') center;
-  height: 100vh;
 }
 .message-list-container {
-  height: 300px;
   overflow-y: auto;
 }
 .message-list {
@@ -12,7 +10,7 @@
   margin: 0;
 }
 .card {
-  height: 75vh !important;
+  height: 68.5vh !important;
 }
 .animal {
   height: 100%;
