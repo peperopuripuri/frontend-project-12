@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx start-server -s ./frontend/build",
     "build": "npm run build --prefix frontend",
-    "postinstall": "cd frontend && npm ci"
+    "postinstall": "cd frontend && npm ci",
   },
   "author": "",
   "license": "ISC",
