@@ -14,10 +14,15 @@ import { useTranslation } from "react-i18next";
 import i18n from "../resources/i18nextInit";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Profanity from 'leo-profanity';
 
 
 const createSocket = () =>
   io(process.env.SERVER_ADDRESS || "http://localhost:3000");
+
+  const filterMessage = (message) => {
+    return Profanity.clean(message);
+  }
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -141,13 +146,13 @@ const Chat = () => {
       setWarningMessage(t('chat.errors.empetyMess'));
       return;
     }
+    const filteredMessageText = filterMessage(messageText);
 
     const newMessage = {
-      body: messageText,
+      body: filteredMessageText,
       channelId: selectedChannel,
       username: username, // Вам может понадобиться указать имя пользователя здесь
     };
-
     // Отправляем новое сообщение на сервер через сокет
     const socket = createSocket();
     socket.emit("newMessage", newMessage);
