@@ -5,7 +5,7 @@ const ru = {
         usernameYupRequired: 'От 3 до 20 символов',
         usernameYupMin: 'От 3 до 20 символов',
         usernameYupMax: 'От 3 до 20 символов',
-        passwordYupRequired: 'Введите пароль 🫥',
+        passwordYupRequired: 'Не менее 6 символов',
         passwordYupMin: 'Не менее 6 символов',
         passwordAgainOneOf: 'Пароли должны совпадать',
         passwordAgainRequired: 'Подтвердите пароль',
