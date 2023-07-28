@@ -24,7 +24,7 @@ const ru = {
       errors: {
         usernameYupRequired: 'Неверное имя пользователя',
         passwordYupRequired: 'Неверные имя пользователя или пароль',
-        errorAuth: 'Ошибка при входе',
+        errorAuth: 'Неверные имя пользователя или пароль',
         toastError: 'Ошибка при входе',
       },
       texts: {
