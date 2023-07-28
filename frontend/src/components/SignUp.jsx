@@ -13,6 +13,8 @@ import axios from "axios";
 import "../styles/SignUp.css";
 import { useTranslation } from 'react-i18next';
 import i18n from "../resources/i18nextInit";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpPage = () => {
   const { t } = useTranslation();
@@ -48,6 +50,7 @@ const SignUpPage = () => {
       })
       .catch((error) => {
         console.error("Ошибка при регистрации:", error);
+        toast.error(t('signUp.errors.catchedError'));
         setStatus({ error: t('signUp.errors.catchedError') });
       })
       .finally(() => {

@@ -12,6 +12,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Chat from "./components/Chat";
 import SignUpPage from "./components/SignUp";
 import Header from "./components/Header";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   // Функция для проверки наличия токена в localStorage
@@ -35,6 +37,7 @@ const App = () => {
   return (
     <Router>
       <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <ToastContainer />
       <Routes>
         <Route
           path="/"

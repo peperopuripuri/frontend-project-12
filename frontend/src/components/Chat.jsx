@@ -12,6 +12,9 @@ import io from "socket.io-client";
 import "../styles/Chat.css";
 import { useTranslation } from "react-i18next";
 import i18n from "../resources/i18nextInit";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const createSocket = () =>
   io(process.env.SERVER_ADDRESS || "http://localhost:3000");
@@ -83,6 +86,7 @@ const Chat = () => {
 
   if (error) {
     if (error === "Request failed with status code 401") {
+      toast.error(t('chat.errors.unAuthUser'));
       return (
         <Container
           className="d-flex justify-content-center align-items-center flex-column"
@@ -128,10 +132,12 @@ const Chat = () => {
 
     if (!selectedChannel) {
       setWarningMessage(t('chat.errors.notSelectedChannel'));
+      toast.error(t('chat.errors.notSelectedChannel'));
       return;
     }
 
     if (!messageText.trim()) {
+      toast.error(t('chat.errors.empetyMess'));
       setWarningMessage(t('chat.errors.empetyMess'));
       return;
     }
@@ -181,10 +187,12 @@ const Chat = () => {
 
     if (!newChannelName.trim()) {
       setWarning(t('chat.errors.empetyChan'));
+      toast.error(t('chat.errors.empetyChan'));
       return;
     }
 
     if (names.includes(newChannelName)) {
+      toast.error(t('chat.errors.alreadyChan'));
       setWarning(t('chat.errors.alreadyChan'));
       return;
     }
@@ -204,6 +212,7 @@ const Chat = () => {
     setWarning("");
     setNewChannelName("");
     handleCloseModalAddChannel();
+    toast.success(t('chat.texts.toastChanSucc'));
   };
 
   const handleConfirmDelete = (e) => {
@@ -220,7 +229,9 @@ const Chat = () => {
       setShowModalDeleteChannel(false);
       setWarning("");
       dispatch(removeChannel(selectedChannel));
+      toast.success(t('chat.texts.toastChanDeleteSucc'));
     } else {
+      toast.error(t('chat.errors.deleteDefaultChan'));
       setWarning(t('chat.errors.deleteDefaultChan'));
     }
   };
@@ -232,15 +243,18 @@ const Chat = () => {
 
     if (!newChannelName.trim()) {
       setWarning(t('chat.errors.empetyChan'));
+      toast.error(t('chat.errors.empetyChan'));
       return;
     }
 
     if (selectedChannel === 1 || selectedChannel === 2) {
       setWarning(t('chat.errors.renameDefaultChan'));
+      toast.error(t('chat.errors.renameDefaultChan'));
       return;
     }
 
     if (names.includes(newChannelName)) {
+      toast.error(t('chat.errors.alreadyChan'));
       setWarning(t('chat.errors.alreadyChan'));
       return;
     }
@@ -254,6 +268,7 @@ const Chat = () => {
     handleCloseModalRenameChannel();
     setWarning("");
     dispatch(renameChannel(selectedChannel, newChannelName.trim()));
+    toast.success(t('chat.texts.toastChanRenameSucc'));
   };
 
   return (
