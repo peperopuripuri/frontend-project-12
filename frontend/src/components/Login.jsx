@@ -42,7 +42,7 @@ const LoginPage = () => {
       .catch((error) => {
         rollbar.error(error, "Login error");
         console.error("Ошибка при авторизации:", error);
-        toast.error(t("login.errors.errorAuth"));
+        toast.error(t("login.errors.toastError"));
         setStatus({ error: t("login.errors.errorAuth") });
       })
       .finally(() => {
