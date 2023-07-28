@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert, Container } from 'react-bootstrap';
+import Profanity from 'leo-profanity';
 import {
   fetchChatData,
   addMessage,
@@ -13,7 +14,6 @@ import '../styles/Chat.css';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Profanity from 'leo-profanity';
 
 const createSocket = () =>
   io(process.env.SERVER_ADDRESS || 'http://localhost:3000');
@@ -88,7 +88,7 @@ const Chat = () => {
   }
 
   if (error) {
-    if (error === 'Request failed with status code 401') {
+    if (error) {
       toast.error(t('chat.errors.unAuthUser'));
       return (
         <Container
@@ -106,24 +106,7 @@ const Chat = () => {
           </Form>
         </Container>
       );
-    } else {
-      return (
-        <Container
-          className="d-flex justify-content-center align-items-center flex-column"
-          style={{ height: '100vh' }}
-        >
-          <Alert variant="danger">{error}</Alert>
-          <Form>
-            <Button className="mt-3 regBtn" variant="dark" href="/signup">
-              {t('chat.texts.ButtonReg')}
-            </Button>
-            <Button className="mt-3 logBtn" variant="dark" href="/login">
-              {t('chat.texts.ButtonLog')}
-            </Button>
-          </Form>
-        </Container>
-      );
-    }
+    };
   }
 
   const handleChannelClick = (channelId) => {

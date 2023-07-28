@@ -5,14 +5,14 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import LoginPage from './components/Login';
 import NotFound from './components/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Chat from './components/Chat';
 import SignUpPage from './components/SignUp';
 import Header from './components/Header';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import i18nInit from './resources/i18nextInit';
 import createRollbar from './rollbar';
