@@ -28,7 +28,7 @@ const ru = {
       },
       texts: {
         authForm: 'Форма авторизации',
-        username: 'Имя пользователя',
+        username: 'Ваш ник',
         password: 'Пароль',
         ButtonLog: 'Войти',
         ButtonReg: 'Регистрация',
