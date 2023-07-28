@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
@@ -16,7 +17,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import createRollbar from '../rollbar';
 
-const LoginPage = () => {
+function LoginPage() {
   const { t } = useTranslation();
   const rollbar = createRollbar();
 
@@ -119,6 +120,6 @@ const LoginPage = () => {
       </Row>
     </Container>
   );
-};
+}
 
 export default LoginPage;

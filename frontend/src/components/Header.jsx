@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/Header.css';
 import { useTranslation } from 'react-i18next';
 
-const Header = ({ isLoggedIn, onLogout }) => {
+function Header({ isLoggedIn, onLogout }) {
   const { t } = useTranslation();
 
   return (
@@ -24,6 +25,6 @@ const Header = ({ isLoggedIn, onLogout }) => {
       </Navbar.Collapse>
     </Navbar>
   );
-};
+}
 
 export default Header;

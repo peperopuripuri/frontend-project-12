@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import React, { useState } from 'react';
 import {
   BrowserRouter as Router,

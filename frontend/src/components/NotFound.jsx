@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/NotFound.css';
 import { useTranslation } from 'react-i18next';
 
-const NotFound = () => {
+function NotFound() {
   const { t } = useTranslation();
 
   return (
@@ -22,6 +22,6 @@ const NotFound = () => {
       </Row>
     </Container>
   );
-};
+}
 
 export default NotFound;

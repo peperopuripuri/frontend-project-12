@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert, Container } from 'react-bootstrap';
 import Profanity from 'leo-profanity';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import {
   fetchChatData,
   addMessage,
@@ -12,7 +13,6 @@ import {
 } from '../redux/chatSlice';
 import io from 'socket.io-client';
 import '../styles/Chat.css';
-import { useTranslation } from 'react-i18next';
 import 'react-toastify/dist/ReactToastify.css';
 
 const createSocket = () =>
@@ -127,7 +127,7 @@ const Chat = () => {
     const newMessage = {
       body: filteredMessageText,
       channelId: selectedChannel,
-      username: username,
+      username,
     };
 
     const socket = createSocket();
@@ -264,6 +264,12 @@ const Chat = () => {
                   selectedChannel === channel.id ? 'active' : ''
                 }`}
                 onClick={() => handleChannelClick(channel.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleChannelClick(channel.id);
+                  }
+                }}
+                tabIndex={0}
               >
                 # {channel.name}
               </li>
