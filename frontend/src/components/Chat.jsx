@@ -474,6 +474,7 @@ const Chat = () => {
                   className="form-control send-mess-input"
                   placeholder={t('chat.texts.enterMess')}
                   onChange={(e) => setMessageText(e.target.value)}
+                  aria-label={t(chat.texts.newMess)}
                 />
                 <div className="input-group-append">
                   <button type="submit" className="btn btn-success">
