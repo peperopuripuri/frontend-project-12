@@ -13,21 +13,24 @@ export const addChannel = (channel) => ({
 
 export const removeChannel = (id) => ({
   type: 'chat/removeChannel',
-  payload: {id},
+  payload: { id },
 });
 
 export const renameChannel = (id, name) => ({
   type: 'chat/renameChannel',
-  payload: {id, name},
+  payload: { id, name },
 });
 
 // Создаем асинхронный thunk для получения данных с сервера
-export const fetchChatData = createAsyncThunk('chat/fetchChatData', async (token) => {
-  const response = await axios.get('/api/v1/data', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-});
+export const fetchChatData = createAsyncThunk(
+  'chat/fetchChatData',
+  async (token) => {
+    const response = await axios.get('/api/v1/data', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  },
+);
 
 const chatSlice = createSlice({
   name: 'chat',
@@ -46,16 +49,20 @@ const chatSlice = createSlice({
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      const channelIndex = state.channels.findIndex((channel) => channel.id === id);
+      const channelIndex = state.channels.findIndex(
+        (channel) => channel.id === id,
+      );
       if (channelIndex !== -1) state.channels[channelIndex].name = name;
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
-      const channelIndex = state.channels.findIndex((channel) => channel.id === id);
+      const channelIndex = state.channels.findIndex(
+        (channel) => channel.id === id,
+      );
       if (channelIndex !== -1) {
         state.channels.splice(channelIndex, 1);
-      };
-    }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder

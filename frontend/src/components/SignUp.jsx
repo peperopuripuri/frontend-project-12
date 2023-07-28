@@ -1,6 +1,6 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as yup from "yup";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as yup from 'yup';
 import {
   Container,
   Row,
@@ -8,13 +8,13 @@ import {
   Form as BootstrapForm,
   Button,
   Alert,
-} from "react-bootstrap";
-import axios from "axios";
-import "../styles/SignUp.css";
+} from 'react-bootstrap';
+import axios from 'axios';
+import '../styles/SignUp.css';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import createRollbar from "../rollbar";
+import createRollbar from '../rollbar';
 
 const SignUpPage = () => {
   const rollbar = createRollbar();
@@ -32,27 +32,27 @@ const SignUpPage = () => {
       .min(6, t('signUp.errors.passwordYupMin')),
     passwordAgain: yup
       .string()
-      .oneOf([yup.ref("password"), null], t('signUp.errors.passwordAgainOneOf'))
+      .oneOf([yup.ref('password'), null], t('signUp.errors.passwordAgainOneOf'))
       .required(t('signUp.errors.passwordAgainRequired')),
   });
 
   // Обработка отправки формы
   const handleSubmit = (values, { setSubmitting, setStatus }) => {
     axios
-      .post("/api/v1/signup", values) // Отправляем POST-запрос с данными пользователя
+      .post('/api/v1/signup', values) // Отправляем POST-запрос с данными пользователя
       .then((response) => {
         if (response.status === 201) {
           rollbar.info(response, 'SignUp');
-          localStorage.setItem("token", response.data.token); // Сохраняем токен в localStorage
-          localStorage.setItem("username", response.data.username); // Сохраняем токен в localStorage
-          window.location.href = "/"; // Редирект на страницу с чатом
+          localStorage.setItem('token', response.data.token); // Сохраняем токен в localStorage
+          localStorage.setItem('username', response.data.username); // Сохраняем токен в localStorage
+          window.location.href = '/'; // Редирект на страницу с чатом
         } else {
           setStatus({ error: response.data.message }); // Обрабатываем ошибку авторизации
         }
       })
       .catch((error) => {
         rollbar.error(error, 'SignUp error');
-        console.error("Ошибка при регистрации:", error);
+        console.error('Ошибка при регистрации:', error);
         toast.error(t('signUp.errors.catchedError'));
         setStatus({ error: t('signUp.errors.catchedError') });
       })
@@ -67,7 +67,7 @@ const SignUpPage = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <h2 className="mb-4">{t('signUp.texts.regForm')}</h2>
           <Formik
-            initialValues={{ username: "", password: "", passwordAgain: "" }}
+            initialValues={{ username: '', password: '', passwordAgain: '' }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
@@ -80,7 +80,9 @@ const SignUpPage = () => {
                 )}
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>{t('signUp.texts.username')}</BootstrapForm.Label>
+                  <BootstrapForm.Label>
+                    {t('signUp.texts.username')}
+                  </BootstrapForm.Label>
                   <Field type="text" name="username" className="form-control" />
                   <ErrorMessage
                     name="username"
@@ -90,7 +92,9 @@ const SignUpPage = () => {
                 </BootstrapForm.Group>
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>{t('signUp.texts.password')}</BootstrapForm.Label>
+                  <BootstrapForm.Label>
+                    {t('signUp.texts.password')}
+                  </BootstrapForm.Label>
                   <Field
                     type="password"
                     name="password"
@@ -104,7 +108,9 @@ const SignUpPage = () => {
                 </BootstrapForm.Group>
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>{t('signUp.texts.passwordAfain')}</BootstrapForm.Label>
+                  <BootstrapForm.Label>
+                    {t('signUp.texts.passwordAfain')}
+                  </BootstrapForm.Label>
                   <Field
                     type="password"
                     name="passwordAgain"
@@ -126,7 +132,7 @@ const SignUpPage = () => {
                   {t('signUp.texts.ButtonReg')}
                 </Button>
                 <Button className="mt-3 logBtn" variant="dark" href="/login">
-                {t('signUp.texts.ButtonLog')}
+                  {t('signUp.texts.ButtonLog')}
                 </Button>
               </Form>
             )}

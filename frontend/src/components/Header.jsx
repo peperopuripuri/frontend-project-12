@@ -1,8 +1,8 @@
-import React from "react";
-import { Navbar, Nav, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../styles/Header.css';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ isLoggedIn, onLogout }) => {
   const { t } = useTranslation();

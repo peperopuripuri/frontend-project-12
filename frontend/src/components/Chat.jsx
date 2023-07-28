@@ -1,47 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Modal, Button, Form, Alert, Container } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal, Button, Form, Alert, Container } from 'react-bootstrap';
 import {
   fetchChatData,
   addMessage,
   addChannel,
   removeChannel,
   renameChannel,
-} from "../redux/chatSlice";
-import io from "socket.io-client";
-import "../styles/Chat.css";
-import { useTranslation } from "react-i18next";
+} from '../redux/chatSlice';
+import io from 'socket.io-client';
+import '../styles/Chat.css';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Profanity from 'leo-profanity';
 
-
 const createSocket = () =>
-  io(process.env.SERVER_ADDRESS || "http://localhost:3000");
+  io(process.env.SERVER_ADDRESS || 'http://localhost:3000');
 
-  const filterMessage = (message) => {
-    return Profanity.clean(message);
-  }
+const filterMessage = (message) => {
+  return Profanity.clean(message);
+};
 
 const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, messages, loading, error } = useSelector(
-    (state) => state.chat
+    (state) => state.chat,
   );
   const [selectedChannel, setSelectedChannel] = useState(null);
-  const [messageText, setMessageText] = useState("");
-  const [newChannelName, setNewChannelName] = useState("");
+  const [messageText, setMessageText] = useState('');
+  const [newChannelName, setNewChannelName] = useState('');
   const [showModalDeleteChannel, setShowModalDeleteChannel] = useState(false);
-  const [warning, setWarning] = useState("");
-  const [warningMessage, setWarningMessage] = useState("");
+  const [warning, setWarning] = useState('');
+  const [warningMessage, setWarningMessage] = useState('');
   const [showModalAddChannel, setShowModalAddChannel] = useState(false);
   const [showModalRenameChannel, setShowModalRenameChannel] = useState(false);
-  const username = localStorage.getItem("username");
+  const username = localStorage.getItem('username');
 
   useEffect(() => {
     // Получение данных с сервера при открытии страницы с чатом
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (token) {
       dispatch(fetchChatData(token));
@@ -51,21 +50,21 @@ const Chat = () => {
     const socket = createSocket();
 
     // Подписываемся на событие нового сообщения
-    socket.on("newMessage", (payload) => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload)); // Добавляем новое сообщение в Redux store
     });
 
-    socket.on("newChannel", (payload) => {
+    socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload)); // Update the Redux store with the new channel
       setSelectedChannel(payload.id);
     });
 
     // Listen for "removeChannel" event
-    socket.on("removeChannel", (payload) => {
+    socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload));
     });
 
-    socket.on("renameChannel", (payload) => {
+    socket.on('renameChannel', (payload) => {
       dispatch(renameChannel(payload)); // Rename the channel in the Redux store
     });
 
@@ -79,7 +78,7 @@ const Chat = () => {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "100vh" }}
+        style={{ height: '100vh' }}
       >
         <div className="spinner-border text-dark" role="status">
           <span className="visually-hidden">Loading...</span>
@@ -89,20 +88,20 @@ const Chat = () => {
   }
 
   if (error) {
-    if (error === "Request failed with status code 401") {
+    if (error === 'Request failed with status code 401') {
       toast.error(t('chat.errors.unAuthUser'));
       return (
         <Container
           className="d-flex justify-content-center align-items-center flex-column"
-          style={{ height: "100vh" }}
+          style={{ height: '100vh' }}
         >
-          <Alert variant="danger">{t("chat.errors.unAuthUser")}</Alert>
+          <Alert variant="danger">{t('chat.errors.unAuthUser')}</Alert>
           <Form>
             <Button className="mt-3 regBtn" variant="dark" href="/signup">
-              {t("chat.texts.ButtonReg")}
+              {t('chat.texts.ButtonReg')}
             </Button>
             <Button className="mt-3 logBtn" variant="dark" href="/login">
-              {t("chat.texts.ButtonLog")}
+              {t('chat.texts.ButtonLog')}
             </Button>
           </Form>
         </Container>
@@ -111,15 +110,15 @@ const Chat = () => {
       return (
         <Container
           className="d-flex justify-content-center align-items-center flex-column"
-          style={{ height: "100vh" }}
+          style={{ height: '100vh' }}
         >
           <Alert variant="danger">{error}</Alert>
           <Form>
             <Button className="mt-3 regBtn" variant="dark" href="/signup">
-              {t("chat.texts.ButtonReg")}
+              {t('chat.texts.ButtonReg')}
             </Button>
             <Button className="mt-3 logBtn" variant="dark" href="/login">
-              {t("chat.texts.ButtonLog")}
+              {t('chat.texts.ButtonLog')}
             </Button>
           </Form>
         </Container>
@@ -154,10 +153,10 @@ const Chat = () => {
     };
     // Отправляем новое сообщение на сервер через сокет
     const socket = createSocket();
-    socket.emit("newMessage", newMessage);
+    socket.emit('newMessage', newMessage);
     // Очищаем поле ввода после отправки
-    document.querySelector(".send-mess-input").value = "";
-    setWarningMessage("");
+    document.querySelector('.send-mess-input').value = '';
+    setWarningMessage('');
   };
 
   const handleCloseModalAddChannel = () => {
@@ -208,13 +207,13 @@ const Chat = () => {
       removable: true, // Assuming the creator can remove this channel, set to false if not
     };
 
-    socket.emit("newChannel", newChannel);
+    socket.emit('newChannel', newChannel);
 
     // Move the creator to the newly added channel
     setSelectedChannel(newChannel.id);
 
-    setWarning("");
-    setNewChannelName("");
+    setWarning('');
+    setNewChannelName('');
     handleCloseModalAddChannel();
     toast.success(t('chat.texts.toastChanSucc'));
   };
@@ -225,13 +224,13 @@ const Chat = () => {
     // Perform the channel deletion logic here
 
     if (selectedChannel !== 1 && selectedChannel !== 2) {
-      socket.emit("removeChannel", {
+      socket.emit('removeChannel', {
         id: selectedChannel,
         name: newChannelName.trim(),
       });
       setSelectedChannel(null);
       setShowModalDeleteChannel(false);
-      setWarning("");
+      setWarning('');
       dispatch(removeChannel(selectedChannel));
       toast.success(t('chat.texts.toastChanDeleteSucc'));
     } else {
@@ -263,14 +262,14 @@ const Chat = () => {
       return;
     }
 
-    socket.emit("renameChannel", {
+    socket.emit('renameChannel', {
       id: selectedChannel,
       name: newChannelName.trim(),
     });
 
-    setNewChannelName("");
+    setNewChannelName('');
     handleCloseModalRenameChannel();
-    setWarning("");
+    setWarning('');
     dispatch(renameChannel(selectedChannel, newChannelName.trim()));
     toast.success(t('chat.texts.toastChanRenameSucc'));
   };
@@ -286,7 +285,7 @@ const Chat = () => {
               <li
                 key={channel.id}
                 className={`list-group-item ${
-                  selectedChannel === channel.id ? "active" : ""
+                  selectedChannel === channel.id ? 'active' : ''
                 }`}
                 onClick={() => handleChannelClick(channel.id)}
               >
@@ -443,20 +442,22 @@ const Chat = () => {
           {/* Чат и форма для ввода нового сообщения */}
           <div className="card">
             <div className="card-body message-list-container">
-              {selectedChannel === null ? setSelectedChannel(1) : (
+              {selectedChannel === null ? (
+                setSelectedChannel(1)
+              ) : (
                 <ul className="list-group message-list">
                   {/* Display only the last 'maxDisplayedMessages' messages */}
                   {messages
                     .filter(
                       (message) =>
                         selectedChannel === null ||
-                        message.channelId === selectedChannel
+                        message.channelId === selectedChannel,
                     )
                     .map((message) => (
                       <li key={message.id} className="list-group-item">
                         <span className="message-sender">
                           {message.username}:
-                        </span>{" "}
+                        </span>{' '}
                         {message.body}
                       </li>
                     ))}
