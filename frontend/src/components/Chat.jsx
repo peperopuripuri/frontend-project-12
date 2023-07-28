@@ -39,36 +39,31 @@ const Chat = () => {
   const username = localStorage.getItem('username');
 
   useEffect(() => {
-    
     const token = localStorage.getItem('token');
 
     if (token) {
       dispatch(fetchChatData(token));
     }
 
-    
     const socket = createSocket();
 
-    
     socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload)); 
+      dispatch(addMessage(payload));
     });
 
     socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload)); 
+      dispatch(addChannel(payload));
       setSelectedChannel(payload.id);
     });
 
-    
     socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload));
     });
 
     socket.on('renameChannel', (payload) => {
-      dispatch(renameChannel(payload)); 
+      dispatch(renameChannel(payload));
     });
 
-    
     return () => {
       socket.disconnect();
     };
@@ -132,12 +127,12 @@ const Chat = () => {
     const newMessage = {
       body: filteredMessageText,
       channelId: selectedChannel,
-      username: username, 
+      username: username,
     };
-    
+
     const socket = createSocket();
     socket.emit('newMessage', newMessage);
-    
+
     document.querySelector('.send-mess-input').value = '';
     setWarningMessage('');
   };
@@ -184,15 +179,14 @@ const Chat = () => {
     }
 
     const newChannel = {
-      id: channels.length + 1, 
+      id: channels.length + 1,
       name: newChannelName.trim(),
-      creator: username, 
-      removable: true, 
+      creator: username,
+      removable: true,
     };
 
     socket.emit('newChannel', newChannel);
 
-    
     setSelectedChannel(newChannel.id);
 
     setWarning('');
@@ -204,7 +198,6 @@ const Chat = () => {
   const handleConfirmDelete = (e) => {
     e.preventDefault();
     const socket = createSocket();
-    
 
     if (selectedChannel !== 1 && selectedChannel !== 2) {
       socket.emit('removeChannel', {

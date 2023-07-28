@@ -5,10 +5,10 @@ import translation from './resources';
 const i18nInit = () => {
   i18n.use(initReactI18next).init({
     resources: translation,
-    lng: 'ru', 
+    lng: 'ru',
     fallbackLng: 'ru',
     interpolation: {
-      escapeValue: false, 
+      escapeValue: false,
     },
   });
 };

@@ -21,7 +21,6 @@ export const renameChannel = (id, name) => ({
   payload: { id, name },
 });
 
-
 export const fetchChatData = createAsyncThunk(
   'chat/fetchChatData',
   async (token) => {
@@ -35,10 +34,10 @@ export const fetchChatData = createAsyncThunk(
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
-    channels: [], 
-    messages: [], 
-    loading: false, 
-    error: null, 
+    channels: [],
+    messages: [],
+    loading: false,
+    error: null,
   },
   reducers: {
     addMessage: (state, action) => {
