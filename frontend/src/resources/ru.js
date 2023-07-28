@@ -8,7 +8,7 @@ const ru = {
         passwordYupRequired: 'Не менее 6 символов',
         passwordYupMin: 'Не менее 6 символов',
         passwordAgainOneOf: 'Пароли должны совпадать',
-        passwordAgainRequired: 'Подтвердите пароль',
+        passwordAgainRequired: 'Пароли должны совпадать',
         catchedError: 'Такое имя занято 🫣',
       },
       texts: {
