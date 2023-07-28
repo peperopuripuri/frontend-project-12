@@ -2,7 +2,7 @@ const ru = {
   translation: {
     signUp: {
       errors: {
-        usernameYupRequired: 'Введите имя пользователя 🩰',
+        usernameYupRequired: 'От 3 до 20 символов',
         usernameYupMin: 'От 3 до 20 символов',
         usernameYupMax: 'От 3 до 20 символов',
         passwordYupRequired: 'Введите пароль 🫥',
