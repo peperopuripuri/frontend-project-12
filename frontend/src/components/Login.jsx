@@ -4,12 +4,15 @@ import * as yup from 'yup';
 import { Container, Row, Col, Form as BootstrapForm, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/Login.css';
+import { useTranslation } from 'react-i18next';
+import i18n from "../resources/i18nextInit";
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   // Схема для валидации формы
   const validationSchema = yup.object().shape({
-    username: yup.string().required('Введите имя пользователя 🤨'),
-    password: yup.string().required('Введите пароль 🥱'),
+    username: yup.string().required(t('login.errors.usernameYupRequired')),
+    password: yup.string().required(t('login.errors.passwordYupRequired')),
   });
 
   // Обработка отправки формы
@@ -27,7 +30,7 @@ const LoginPage = () => {
       })
       .catch((error) => {
         console.error('Ошибка при авторизации:', error);
-        setStatus({ error: 'Произошла ошибка при авторизации 😬' });
+        setStatus({ error: t('login.errors.errorAuth') });
       })
       .finally(() => {
         setSubmitting(false);
@@ -38,7 +41,7 @@ const LoginPage = () => {
     <Container className='loginWrapper'>
       <Row className="justify-content-center mt-5">
         <Col xs={12} sm={8} md={6} lg={4}>
-          <h2 className="mb-4">Форма авторизации</h2>
+          <h2 className="mb-4">{t('login.texts.authForm')}</h2>
           <Formik
             initialValues={{ username: '', password: '' }}
             validationSchema={validationSchema}
@@ -53,21 +56,21 @@ const LoginPage = () => {
                 )}
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>Имя пользователя</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('login.texts.username')}</BootstrapForm.Label>
                   <Field type="text" name="username" className="form-control" />
                   <ErrorMessage name="username" component="div" className="text-danger" />
                 </BootstrapForm.Group>
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>Пароль</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('login.texts.password')}</BootstrapForm.Label>
                   <Field type="password" name="password" className="form-control" />
                   <ErrorMessage name="password" component="div" className="text-danger" />
                 </BootstrapForm.Group>
 
                 <Button type="submit" variant="primary" className="mt-3 btn-success" disabled={isSubmitting}>
-                  Войти
+                {t('login.texts.ButtonLog')}
                 </Button>
-                <Button className='mt-3 regBtn' variant="dark" href='/signup'>Регистрация</Button>
+                <Button className='mt-3 regBtn' variant="dark" href='/signup'>{t('login.texts.ButtonReg')}</Button>
               </Form>
             )}
           </Formik>

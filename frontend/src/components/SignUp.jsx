@@ -11,23 +11,26 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import "../styles/SignUp.css";
+import { useTranslation } from 'react-i18next';
+import i18n from "../resources/i18nextInit";
 
 const SignUpPage = () => {
-  // Схема для валидации формы
+  const { t } = useTranslation();
+
   const validationSchema = yup.object().shape({
     username: yup
       .string()
-      .required("Введите имя пользователя 🩰")
-      .min(3, "Имя пользователя должно содержать не менее 3 символов 😖")
-      .max(20, "Имя пользователя должно содержать не более 20 символов 🥹"),
+      .required(t('signUp.errors.usernameYupRequired'))
+      .min(3, t('signUp.errors.usernameYupMin'))
+      .max(20, t('signUp.errors.usernameYupMax')),
     password: yup
       .string()
-      .required("Введите пароль 🫥")
-      .min(6, "Пароль должен содержать не менее 6 символов 😳"),
+      .required(t('signUp.errors.passwordYupRequired'))
+      .min(6, t('signUp.errors.passwordYupMin')),
     passwordAgain: yup
       .string()
-      .oneOf([yup.ref("password"), null], "Пароли должны совпадать 👿")
-      .required("Подтвердите пароль 😮‍💨"),
+      .oneOf([yup.ref("password"), null], t('signUp.errors.passwordAgainOneOf'))
+      .required(t('signUp.errors.passwordAgainRequired')),
   });
 
   // Обработка отправки формы
@@ -45,7 +48,7 @@ const SignUpPage = () => {
       })
       .catch((error) => {
         console.error("Ошибка при регистрации:", error);
-        setStatus({ error: "Такое имя занято 🫣" });
+        setStatus({ error: t('signUp.errors.catchedError') });
       })
       .finally(() => {
         setSubmitting(false);
@@ -56,7 +59,7 @@ const SignUpPage = () => {
     <Container className="signUpWrapper">
       <Row className="justify-content-center mt-5">
         <Col xs={12} sm={8} md={6} lg={4}>
-          <h2 className="mb-4">Форма регистрации</h2>
+          <h2 className="mb-4">{t('signUp.texts.regForm')}</h2>
           <Formik
             initialValues={{ username: "", password: "", passwordAgain: "" }}
             validationSchema={validationSchema}
@@ -71,7 +74,7 @@ const SignUpPage = () => {
                 )}
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>Имя пользователя</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('signUp.texts.username')}</BootstrapForm.Label>
                   <Field type="text" name="username" className="form-control" />
                   <ErrorMessage
                     name="username"
@@ -81,7 +84,7 @@ const SignUpPage = () => {
                 </BootstrapForm.Group>
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>Пароль</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('signUp.texts.password')}</BootstrapForm.Label>
                   <Field
                     type="password"
                     name="password"
@@ -95,7 +98,7 @@ const SignUpPage = () => {
                 </BootstrapForm.Group>
 
                 <BootstrapForm.Group>
-                  <BootstrapForm.Label>Подтвердите пароль</BootstrapForm.Label>
+                  <BootstrapForm.Label>{t('signUp.texts.passwordAfain')}</BootstrapForm.Label>
                   <Field
                     type="password"
                     name="passwordAgain"
@@ -114,10 +117,10 @@ const SignUpPage = () => {
                   className="mt-3 btn-success"
                   disabled={isSubmitting}
                 >
-                  Зарегистрироваться
+                  {t('signUp.texts.ButtonReg')}
                 </Button>
                 <Button className="mt-3 logBtn" variant="dark" href="/login">
-                  Войти
+                {t('signUp.texts.ButtonLog')}
                 </Button>
               </Form>
             )}

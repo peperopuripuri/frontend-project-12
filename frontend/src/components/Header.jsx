@@ -2,7 +2,12 @@ import React from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import '../styles/Header.css';
+import { useTranslation } from "react-i18next";
+import i18n from "../resources/i18nextInit";
+
 const Header = ({ isLoggedIn, onLogout }) => {
+  const { t } = useTranslation();
+
   return (
     <Navbar expand="lg">
       <Navbar.Brand as={Link} to="/">
@@ -13,7 +18,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
         <Nav className="ml-auto">
           {isLoggedIn && (
             <Button variant="success" onClick={onLogout}>
-              Выйти
+              {t('header.texts.signOutBtn')}
             </Button>
           )}
         </Nav>

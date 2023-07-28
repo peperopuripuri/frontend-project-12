@@ -10,10 +10,14 @@ import {
 } from "../redux/chatSlice";
 import io from "socket.io-client";
 import "../styles/Chat.css";
+import { useTranslation } from "react-i18next";
+import i18n from "../resources/i18nextInit";
 
-const createSocket = () => io("http://localhost:3000");
+const createSocket = () =>
+  io(process.env.SERVER_ADDRESS || "http://localhost:3000");
 
 const Chat = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, messages, loading, error } = useSelector(
     (state) => state.chat
@@ -84,13 +88,13 @@ const Chat = () => {
           className="d-flex justify-content-center align-items-center flex-column"
           style={{ height: "100vh" }}
         >
-          <Alert variant="danger">Неавторизованный пользователь!!! Войдите или зарегистрируйтесь 😪</Alert>
+          <Alert variant="danger">{t("chat.errors.unAuthUser")}</Alert>
           <Form>
             <Button className="mt-3 regBtn" variant="dark" href="/signup">
-              Регистрация
+              {t("chat.texts.ButtonReg")}
             </Button>
             <Button className="mt-3 logBtn" variant="dark" href="/login">
-              Войти
+              {t("chat.texts.ButtonLog")}
             </Button>
           </Form>
         </Container>
@@ -104,10 +108,10 @@ const Chat = () => {
           <Alert variant="danger">{error}</Alert>
           <Form>
             <Button className="mt-3 regBtn" variant="dark" href="/signup">
-              Регистрация
+              {t("chat.texts.ButtonReg")}
             </Button>
             <Button className="mt-3 logBtn" variant="dark" href="/login">
-              Войти
+              {t("chat.texts.ButtonLog")}
             </Button>
           </Form>
         </Container>
@@ -123,12 +127,12 @@ const Chat = () => {
     e.preventDefault();
 
     if (!selectedChannel) {
-      setWarningMessage("Надо выбрать канал 😩");
+      setWarningMessage(t('chat.errors.notSelectedChannel'));
       return;
     }
 
     if (!messageText.trim()) {
-      setWarningMessage("Поле для ввода пустое 🤕");
+      setWarningMessage(t('chat.errors.empetyMess'));
       return;
     }
 
@@ -176,12 +180,12 @@ const Chat = () => {
     const names = channels.map((chan) => chan.name);
 
     if (!newChannelName.trim()) {
-      setWarning("Имя канала не должно быть пустым 😏");
+      setWarning(t('chat.errors.empetyChan'));
       return;
     }
 
     if (names.includes(newChannelName)) {
-      setWarning("Канал уже существует 🤦‍♂️");
+      setWarning(t('chat.errors.alreadyChan'));
       return;
     }
 
@@ -217,7 +221,7 @@ const Chat = () => {
       setWarning("");
       dispatch(removeChannel(selectedChannel));
     } else {
-      setWarning("Нельзя удалять стандартные каналы 😭");
+      setWarning(t('chat.errors.deleteDefaultChan'));
     }
   };
 
@@ -227,17 +231,17 @@ const Chat = () => {
     const names = channels.map((chan) => chan.name);
 
     if (!newChannelName.trim()) {
-      setWarning("Имя канала не должно быть пустым 😏");
+      setWarning(t('chat.errors.empetyChan'));
       return;
     }
 
     if (selectedChannel === 1 || selectedChannel === 2) {
-      setWarning("Этому каналу нельзя поменять имя 😒");
+      setWarning(t('chat.errors.renameDefaultChan'));
       return;
     }
 
     if (names.includes(newChannelName)) {
-      setWarning("Канал уже существует 🤦‍♀️");
+      setWarning(t('chat.errors.alreadyChan'));
       return;
     }
 
@@ -257,7 +261,7 @@ const Chat = () => {
       <div className="row">
         {/* Список каналов (левая часть) */}
         <div className="col-md-4">
-          <h2>Список каналов</h2>
+          <h2>{t('chat.texts.channList')}</h2>
           <ul className="list-group">
             {channels.map((channel) => (
               <li
@@ -274,30 +278,28 @@ const Chat = () => {
           <div>
             <Modal show={showModalDeleteChannel} onHide={handleCancelDelete}>
               <Modal.Header closeButton>
-                <Modal.Title>Подтверждение удаления</Modal.Title>
+                <Modal.Title>{t('chat.texts.confirmDelete')}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 {warning && <Alert variant="warning">{warning}</Alert>}
-                Вы уверены, что хотите удалить канал?
+                {t('chat.texts.confirmDeleteRURealy')}
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCancelDelete}>
-                  Отмена
+                  {t('chat.texts.confirmDeleteCancel')}
                 </Button>
                 <Button
                   autoFocus
                   variant="danger"
                   onClick={handleConfirmDelete}
                 >
-                  Удалить
+                  {t('chat.texts.confirmDeleteDeletion')}
                 </Button>
               </Modal.Footer>
             </Modal>
           </div>
           <br />
-          {warningMessage && (
-              <Alert variant="warning">{warningMessage}</Alert>
-            )}
+          {warningMessage && <Alert variant="warning">{warningMessage}</Alert>}
           {/* Выпадающее меню с кнопками управления каналом */}
           <div className="dropdown mt-4">
             <button
@@ -307,7 +309,7 @@ const Chat = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Действия
+              {t('chat.texts.actions')}
             </button>
             <ul
               className="dropdown-menu"
@@ -320,7 +322,7 @@ const Chat = () => {
                   onClick={handleShowModalAddChannel}
                   className="dropdown-item"
                 >
-                  Добавить канал
+                  {t('chat.texts.addChannel')}
                 </Button>
               </li>
               {/* Кнопка удаления канала */}
@@ -330,7 +332,7 @@ const Chat = () => {
                     className="dropdown-item"
                     onClick={handleDeleteChannel}
                   >
-                    Удалить канал
+                    {t('chat.texts.deleteChan')}
                   </Button>
                 </li>
               )}
@@ -341,7 +343,7 @@ const Chat = () => {
                     className="dropdown-item"
                     onClick={handleShowModalRenameChannel}
                   >
-                    Переименовать канал
+                    {t('chat.texts.renameChan')}
                   </Button>
                 </li>
               )}
@@ -356,14 +358,14 @@ const Chat = () => {
           >
             <Modal.Header closeButton>
               <Modal.Title id="addChannelModalLabel">
-                Добавить канал
+                {t('chat.texts.addChan')}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {warning && <Alert variant="warning">{warning}</Alert>}
               <Form onSubmit={handleAddChannel}>
                 <Form.Group className="mb-3" controlId="newChannelName">
-                  <Form.Label>Имя канала</Form.Label>
+                  <Form.Label>{t('chat.texts.nameChan')}</Form.Label>
                   <Form.Control
                     type="text"
                     value={newChannelName}
@@ -371,7 +373,7 @@ const Chat = () => {
                   />
                 </Form.Group>
                 <Button variant="success" type="submit">
-                  Добавить
+                  {t('chat.texts.add')}
                 </Button>
               </Form>
             </Modal.Body>
@@ -385,14 +387,14 @@ const Chat = () => {
           >
             <Modal.Header closeButton>
               <Modal.Title id="renameChannelModalLabel">
-                Переименовать канал
+                {t('chat.texts.renameChan')}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               {warning && <Alert variant="warning">{warning}</Alert>}
               <Form onSubmit={handleRenameChannel}>
                 <Form.Group className="mb-3" controlId="newChannelName">
-                  <Form.Label>Новое имя канала</Form.Label>
+                  <Form.Label>{t('chat.texts.newNameChan')}</Form.Label>
                   <Form.Control
                     type="text"
                     value={newChannelName}
@@ -400,7 +402,7 @@ const Chat = () => {
                   />
                 </Form.Group>
                 <Button variant="success" type="submit">
-                  Переименовать
+                  {t('chat.texts.rename')}
                 </Button>
               </Form>
             </Modal.Body>
@@ -411,11 +413,11 @@ const Chat = () => {
         <div className="col-md-8">
           <h2>
             {selectedChannel
-              ? `Канал: ${
+              ? `${t('chat.texts.channel')}: ${
                   channels.find((channel) => channel.id === selectedChannel)
                     ?.name
                 }`
-              : "Выберите канал"}
+              : t('chat.texts.chooseChannel')}
           </h2>
           <hr />
 
@@ -457,12 +459,12 @@ const Chat = () => {
                 <input
                   type="text"
                   className="form-control send-mess-input"
-                  placeholder="Введите сообщение"
+                  placeholder={t('chat.texts.enterMess')}
                   onChange={(e) => setMessageText(e.target.value)}
                 />
                 <div className="input-group-append">
                   <button type="submit" className="btn btn-success">
-                    Отправить
+                    {t('chat.texts.send')}
                   </button>
                 </div>
               </div>
