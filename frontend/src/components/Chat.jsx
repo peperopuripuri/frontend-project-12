@@ -4,6 +4,7 @@ import { Modal, Button, Form, Alert, Container } from 'react-bootstrap';
 import Profanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import io from 'socket.io-client';
 import {
   fetchChatData,
   addMessage,
@@ -11,7 +12,6 @@ import {
   removeChannel,
   renameChannel,
 } from '../redux/chatSlice';
-import io from 'socket.io-client';
 import '../styles/Chat.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,7 +22,7 @@ const filterMessage = (message) => {
   return Profanity.clean(message);
 };
 
-const Chat = () => {
+function Chat() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, messages, loading, error } = useSelector(
@@ -258,7 +258,7 @@ const Chat = () => {
           <h2>{t('chat.texts.channList')}</h2>
           <ul className="list-group">
             {channels.map((channel) => (
-              <li
+              <Button
                 key={channel.id}
                 className={`list-group-item ${
                   selectedChannel === channel.id ? 'active' : ''
@@ -272,7 +272,7 @@ const Chat = () => {
                 tabIndex={0}
               >
                 # {channel.name}
-              </li>
+              </Button>
             ))}
           </ul>
           <div>
@@ -471,6 +471,6 @@ const Chat = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Chat;
