@@ -22,9 +22,9 @@ const ru = {
     },
     login: {
       errors: {
-        usernameYupRequired: 'Неверное имя пользователя',
+        usernameYupRequired: 'Неверные имя пользователя или пароль',
         passwordYupRequired: 'Неверные имя пользователя или пароль',
-        errorAuth: 'Произошла ошибка при авторизации 😬',
+        errorAuth: 'Неверные имя пользователя или пароль',
       },
       texts: {
         authForm: 'Форма авторизации',
