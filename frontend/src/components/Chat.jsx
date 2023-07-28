@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form, Alert, Container } from 'react-bootstrap';
 import Profanity from 'leo-profanity';
+import { toast } from 'react-toastify';
 import {
   fetchChatData,
   addMessage,
@@ -12,7 +13,6 @@ import {
 import io from 'socket.io-client';
 import '../styles/Chat.css';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const createSocket = () =>
@@ -39,36 +39,36 @@ const Chat = () => {
   const username = localStorage.getItem('username');
 
   useEffect(() => {
-    // Получение данных с сервера при открытии страницы с чатом
+    
     const token = localStorage.getItem('token');
 
     if (token) {
       dispatch(fetchChatData(token));
     }
 
-    // Подключаемся к серверу сокетов
+    
     const socket = createSocket();
 
-    // Подписываемся на событие нового сообщения
+    
     socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload)); // Добавляем новое сообщение в Redux store
+      dispatch(addMessage(payload)); 
     });
 
     socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload)); // Update the Redux store with the new channel
+      dispatch(addChannel(payload)); 
       setSelectedChannel(payload.id);
     });
 
-    // Listen for "removeChannel" event
+    
     socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload));
     });
 
     socket.on('renameChannel', (payload) => {
-      dispatch(renameChannel(payload)); // Rename the channel in the Redux store
+      dispatch(renameChannel(payload)); 
     });
 
-    // Закрываем соединение при размонтировании компонента
+    
     return () => {
       socket.disconnect();
     };
@@ -106,7 +106,7 @@ const Chat = () => {
           </Form>
         </Container>
       );
-    };
+    }
   }
 
   const handleChannelClick = (channelId) => {
@@ -132,12 +132,12 @@ const Chat = () => {
     const newMessage = {
       body: filteredMessageText,
       channelId: selectedChannel,
-      username: username, // Вам может понадобиться указать имя пользователя здесь
+      username: username, 
     };
-    // Отправляем новое сообщение на сервер через сокет
+    
     const socket = createSocket();
     socket.emit('newMessage', newMessage);
-    // Очищаем поле ввода после отправки
+    
     document.querySelector('.send-mess-input').value = '';
     setWarningMessage('');
   };
@@ -184,15 +184,15 @@ const Chat = () => {
     }
 
     const newChannel = {
-      id: channels.length + 1, // Assuming unique channel IDs, you can change this accordingly
+      id: channels.length + 1, 
       name: newChannelName.trim(),
-      creator: username, // Replace this with the actual creator's name or user ID
-      removable: true, // Assuming the creator can remove this channel, set to false if not
+      creator: username, 
+      removable: true, 
     };
 
     socket.emit('newChannel', newChannel);
 
-    // Move the creator to the newly added channel
+    
     setSelectedChannel(newChannel.id);
 
     setWarning('');
@@ -204,7 +204,7 @@ const Chat = () => {
   const handleConfirmDelete = (e) => {
     e.preventDefault();
     const socket = createSocket();
-    // Perform the channel deletion logic here
+    
 
     if (selectedChannel !== 1 && selectedChannel !== 2) {
       socket.emit('removeChannel', {

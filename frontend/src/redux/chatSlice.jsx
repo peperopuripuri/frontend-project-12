@@ -21,7 +21,7 @@ export const renameChannel = (id, name) => ({
   payload: { id, name },
 });
 
-// Создаем асинхронный thunk для получения данных с сервера
+
 export const fetchChatData = createAsyncThunk(
   'chat/fetchChatData',
   async (token) => {
@@ -35,10 +35,10 @@ export const fetchChatData = createAsyncThunk(
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
-    channels: [], // массив каналов
-    messages: [], // массив сообщений
-    loading: false, // флаг загрузки данных
-    error: null, // ошибка при получении данных
+    channels: [], 
+    messages: [], 
+    loading: false, 
+    error: null, 
   },
   reducers: {
     addMessage: (state, action) => {

@@ -19,24 +19,23 @@ import createRollbar from '../rollbar';
 const LoginPage = () => {
   const { t } = useTranslation();
   const rollbar = createRollbar();
-  // Схема для валидации формы
+
   const validationSchema = yup.object().shape({
     username: yup.string().required(t('login.errors.usernameYupRequired')),
     password: yup.string().required(t('login.errors.passwordYupRequired')),
   });
 
-  // Обработка отправки формы
   const handleSubmit = (values, { setSubmitting, setStatus }) => {
     axios
-      .post('/api/v1/login', values) // Отправляем POST-запрос с данными пользователя
+      .post('/api/v1/login', values)
       .then((response) => {
         if (response.status === 200) {
           rollbar.info(response, 'Login ok');
-          localStorage.setItem('token', response.data.token); // Сохраняем токен в localStorage
+          localStorage.setItem('token', response.data.token);
           localStorage.setItem('username', response.data.username);
-          window.location.href = '/'; // Редирект на страницу с чатом
+          window.location.href = '/';
         } else {
-          setStatus({ error: response.data.message }); // Обрабатываем ошибку авторизации
+          setStatus({ error: response.data.message });
         }
       })
       .catch((error) => {

@@ -36,18 +36,18 @@ const SignUpPage = () => {
       .required(t('signUp.errors.passwordAgainRequired')),
   });
 
-  // Обработка отправки формы
+  
   const handleSubmit = (values, { setSubmitting, setStatus }) => {
     axios
-      .post('/api/v1/signup', values) // Отправляем POST-запрос с данными пользователя
+      .post('/api/v1/signup', values) 
       .then((response) => {
         if (response.status === 201) {
           rollbar.info(response, 'SignUp');
-          localStorage.setItem('token', response.data.token); // Сохраняем токен в localStorage
-          localStorage.setItem('username', response.data.username); // Сохраняем токен в localStorage
-          window.location.href = '/'; // Редирект на страницу с чатом
+          localStorage.setItem('token', response.data.token); 
+          localStorage.setItem('username', response.data.username); 
+          window.location.href = '/'; 
         } else {
-          setStatus({ error: response.data.message }); // Обрабатываем ошибку авторизации
+          setStatus({ error: response.data.message }); 
         }
       })
       .catch((error) => {

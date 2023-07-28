@@ -19,7 +19,7 @@ import createRollbar from './rollbar';
 
 function App() {
   const rollbar = createRollbar();
-  // Функция для проверки наличия токена в localStorage
+  
   const isUserAuthenticated = () => {
     i18nInit();
     rollbar.info('User Authenticated');
