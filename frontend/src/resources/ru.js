@@ -22,7 +22,7 @@ const ru = {
     },
     login: {
       errors: {
-        usernameYupRequired: 'Неверные имя пользователя или пароль',
+        usernameYupRequired: 'Неверное имя пользователя',
         passwordYupRequired: 'Неверный пароль',
         errorAuth: 'Неверные имя пользователя или пароль',
       },
