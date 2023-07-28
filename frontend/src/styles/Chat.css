@@ -21,8 +21,8 @@
   color: green;
 }
 .list-group-item.active {
-  background-color: green;
-  color: yellow;
+  background-color: black;
+  color: green;
 }
 .form-control {
   unicode-bidi: bidi-override;

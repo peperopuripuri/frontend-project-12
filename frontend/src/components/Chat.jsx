@@ -259,6 +259,7 @@ function Chat() {
           <ul className="list-group">
             {channels.map((channel) => (
               <Button
+                variant="success"
                 key={channel.id}
                 className={`list-group-item ${
                   selectedChannel === channel.id ? 'active' : ''
