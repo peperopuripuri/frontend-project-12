@@ -13,6 +13,7 @@ import {
   renameChannel,
 } from '../redux/chatSlice';
 import '../styles/Chat.css';
+import createRollbar from '../rollbar';
 import 'react-toastify/dist/ReactToastify.css';
 
 const createSocket = () =>
@@ -23,6 +24,7 @@ const filterMessage = (message) => {
 };
 
 function Chat() {
+  const rollbar = createRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, messages, loading, error } = useSelector(
@@ -135,6 +137,7 @@ function Chat() {
 
     document.querySelector('.send-mess-input').value = '';
     setWarningMessage('');
+    rollbar.info('messageSent');
   };
 
   const handleCloseModalAddChannel = () => {
