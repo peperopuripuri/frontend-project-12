@@ -4,9 +4,6 @@ import { Provider } from 'react-redux'; // Import the Provider from react-redux
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './redux/store'; // Import your Redux store
-import rollbar from './rollbar';
-
-rollbar.info('React app started');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -5,7 +5,6 @@ import { Container, Row, Col, Form as BootstrapForm, Button, Alert } from 'react
 import axios from 'axios';
 import '../styles/Login.css';
 import { useTranslation } from 'react-i18next';
-import i18n from "../resources/i18nextInit";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

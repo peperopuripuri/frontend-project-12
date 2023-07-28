@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/NotFound.css';
 import { useTranslation } from "react-i18next";
-import i18n from "../resources/i18nextInit";
 
 const NotFound = () => {
   const { t } = useTranslation();

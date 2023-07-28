@@ -2,7 +2,8 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import translation from './resources';
 
-i18n
+const i18nInit = () => {
+  i18n
   .use(initReactI18next)
   .init({
     resources: translation,
@@ -12,5 +13,6 @@ i18n
       escapeValue: false, // allows usage of HTML tags in translations
     },
   });
+};
 
-export default i18n;
+export default i18nInit;

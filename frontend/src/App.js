@@ -14,10 +14,12 @@ import SignUpPage from "./components/SignUp";
 import Header from "./components/Header";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import i18nInit from "./resources/i18nextInit";
 
 const App = () => {
   // Функция для проверки наличия токена в localStorage
   const isUserAuthenticated = () => {
+    i18nInit()
     return !!localStorage.getItem("token");
   };
 
