@@ -443,13 +443,7 @@ const Chat = () => {
           {/* Чат и форма для ввода нового сообщения */}
           <div className="card">
             <div className="card-body message-list-container">
-              {selectedChannel === null ? (
-                <img
-                  className="animal"
-                  src="https://i.pinimg.com/564x/81/1f/1b/811f1b01539f81ed6eca7b83cf1710fc.jpg"
-                  alt="animal"
-                />
-              ) : (
+              {selectedChannel === null ? setSelectedChannel(1) : (
                 <ul className="list-group message-list">
                   {/* Display only the last 'maxDisplayedMessages' messages */}
                   {messages
