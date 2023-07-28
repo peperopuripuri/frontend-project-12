@@ -7,9 +7,11 @@ import '../styles/Login.css';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import createRollbar from '../rollbar';
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const rollbar = createRollbar();
   // Схема для валидации формы
   const validationSchema = yup.object().shape({
     username: yup.string().required(t('login.errors.usernameYupRequired')),
@@ -22,6 +24,7 @@ const LoginPage = () => {
       .post('/api/v1/login', values) // Отправляем POST-запрос с данными пользователя
       .then((response) => {
         if (response.status === 200) {
+          rollbar.info(response, 'Login ok');
           localStorage.setItem('token', response.data.token); // Сохраняем токен в localStorage
           localStorage.setItem('username', response.data.username);
           window.location.href = '/'; // Редирект на страницу с чатом
@@ -30,6 +33,7 @@ const LoginPage = () => {
         }
       })
       .catch((error) => {
+        rollbar.error(error, 'Login error');
         console.error('Ошибка при авторизации:', error);
         toast.error(t('login.errors.errorAuth'))
         setStatus({ error: t('login.errors.errorAuth') });

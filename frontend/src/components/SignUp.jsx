@@ -14,8 +14,10 @@ import "../styles/SignUp.css";
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import createRollbar from "../rollbar";
 
 const SignUpPage = () => {
+  const rollbar = createRollbar();
   const { t } = useTranslation();
 
   const validationSchema = yup.object().shape({
@@ -40,6 +42,7 @@ const SignUpPage = () => {
       .post("/api/v1/signup", values) // Отправляем POST-запрос с данными пользователя
       .then((response) => {
         if (response.status === 201) {
+          rollbar.info(response, 'SignUp');
           localStorage.setItem("token", response.data.token); // Сохраняем токен в localStorage
           localStorage.setItem("username", response.data.username); // Сохраняем токен в localStorage
           window.location.href = "/"; // Редирект на страницу с чатом
@@ -48,6 +51,7 @@ const SignUpPage = () => {
         }
       })
       .catch((error) => {
+        rollbar.error(error, 'SignUp error');
         console.error("Ошибка при регистрации:", error);
         toast.error(t('signUp.errors.catchedError'));
         setStatus({ error: t('signUp.errors.catchedError') });

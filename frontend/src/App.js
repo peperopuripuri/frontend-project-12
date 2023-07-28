@@ -15,21 +15,26 @@ import Header from "./components/Header";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import i18nInit from "./resources/i18nextInit";
+import createRollbar from "./rollbar";
 
 const App = () => {
+  const rollbar = createRollbar();
   // Функция для проверки наличия токена в localStorage
   const isUserAuthenticated = () => {
     i18nInit()
+    rollbar.info('User Authenticated');
     return !!localStorage.getItem("token");
   };
 
   const isUsernameAuthenticated = () => {
+    rollbar.info('Username Authenticated');
     const username = localStorage.getItem("username");
     return !!username;
   };
 
   const [isLoggedIn, setIsLoggedIn] = useState(isUsernameAuthenticated());
   const handleLogout = () => {
+    rollbar.info('Username Logout');
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     window.location.href = "/login";
