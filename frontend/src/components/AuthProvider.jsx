@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
-const AuthProvider = ({ children }) => {
+function AuthProvider({ children }) {
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(currentUser || null);
 
@@ -15,9 +15,12 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
-  const getAuthHeaders = useCallback(() => ({
-    headers: { Authorization: `Bearer ${user.token}` },
-  }), [user]);
+  const getAuthHeaders = useCallback(
+    () => ({
+      headers: { Authorization: `Bearer ${user.token}` },
+    }),
+    [user],
+  );
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const authValue = {
@@ -28,10 +31,8 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={authValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;
