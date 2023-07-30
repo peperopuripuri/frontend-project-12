@@ -1,21 +1,12 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux'; // Import the Provider from react-redux
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import store from './redux/store'; // Import your Redux store
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { io } from 'socket.io-client';
+import init from './init';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    {/* Wrap App with Provider and provide the Redux store */}
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-);
+const app = async () => {
+  const socket = io();
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(await init(socket));
+};
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+app();
