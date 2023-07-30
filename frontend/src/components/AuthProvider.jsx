@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
-function AuthProvider({ children }) {
+const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(currentUser || null);
 

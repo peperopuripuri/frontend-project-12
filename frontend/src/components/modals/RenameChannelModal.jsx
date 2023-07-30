@@ -1,6 +1,11 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Button, Modal, FormText } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Modal,
+  FormText
+} from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -8,7 +13,7 @@ import * as Yup from 'yup';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 
-function RenameChannelModal() {
+const RenameChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const channelId = useSelector((state) => state.channels.currentChannelId);
 

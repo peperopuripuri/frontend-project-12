@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Form, Button, Container, Row, Col, FormText } from 'react-bootstrap';
+import { Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  FormText
+} from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -65,8 +71,7 @@ function SignUpPage() {
         setRegError(t('signUpPage.validation.unknown'));
       }
       const { status } = error.response;
-      const message =
-        status === 409
+      const message = status === 409
           ? t('signUpPage.validation.alreadyReg')
           : t('signUpPage.validation.unknown');
       setRegError(message);

@@ -9,7 +9,7 @@ import NotFoundPage from './NotFoundPage';
 import SignUpPage from './SignUpPage';
 import routes from '../utils/routes';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <AuthProvider>
