@@ -10,18 +10,18 @@ import SignUpPage from './SignUpPage';
 import routes from '../utils/routes';
 
 const App = () => (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route element={<PrivateRoute />}>
-            <Route path={routes.home} element={<ChatPage />} />
-          </Route>
-          <Route path={routes.login} element={<LoginPage />} />
-          <Route path={routes.error} element={<NotFoundPage />} />
-          <Route path={routes.signip} element={<SignUpPage />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+  <BrowserRouter>
+    <AuthProvider>
+      <Routes>
+        <Route element={<PrivateRoute />}>
+          <Route path={routes.home} element={<ChatPage />} />
+        </Route>
+        <Route path={routes.login} element={<LoginPage />} />
+        <Route path={routes.error} element={<NotFoundPage />} />
+        <Route path={routes.signip} element={<SignUpPage />} />
+      </Routes>
+    </AuthProvider>
+  </BrowserRouter>
 );
 
 export default App;

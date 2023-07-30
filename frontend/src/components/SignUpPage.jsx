@@ -7,7 +7,7 @@ import {
   Container,
   Row,
   Col,
-  FormText
+  FormText,
 } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -77,7 +77,7 @@ const SignUpPage = () => {
         : t('signUpPage.validation.unknown');
       setRegError(message);
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -154,6 +154,6 @@ const SignUpPage = () => {
       </Container>
     </>
   );
-}
+};
 
 export default SignUpPage;

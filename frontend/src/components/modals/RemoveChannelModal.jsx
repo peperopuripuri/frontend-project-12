@@ -50,6 +50,6 @@ const RemoveChannelModal = () => {
       </Modal.Body>
     </Modal>
   );
-}
+};
 
 export default RemoveChannelModal;
