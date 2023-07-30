@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
-import { Button, Form, Modal, FormText } from 'react-bootstrap';
+import {
+  Button, Form, Modal, FormText,
+} from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -47,70 +49,39 @@ const AddChannelModal = () => {
     validationSchema: validate,
   });
 
-  const renderErrorFeedback = () => {
-    if (formik.errors.name && formik.touched.name) {
-      return <FormText className="feedback text-danger mt-3">{formik.errors.name}</FormText>;
-    }
-    return null;
-  };
-
-  const handleModalClose = () => {
-    dispatch(hideModal());
-  };
-
   return (
     <Modal show>
-      <Modal.Header closeButton onHide={handleModalClose}>
+      <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
         <Modal.Title>{t('addChannelModal.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          {renderFormContent(formik, t)}
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Control
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              type="text"
+              name="name"
+              disabled={formik.isSubmitting}
+              placeholder={t('addChannelModal.label')}
+              autoFocus
+              isInvalid={formik.errors.name && formik.touched.name}
+            />
+            <Form.Label className="visually-hidden" htmlFor="name">{t('addChannelModal.label')}</Form.Label>
+
+            {formik.errors.name && formik.touched.name && (
+              <FormText className="feedback text-danger mt-3">{formik.errors.name}</FormText>
+            )}
+          </Form.Group>
+          <Button variant="secondary" onClick={() => dispatch(hideModal())} className="m-1">
+            {t('addChannelModal.cancel')}
+          </Button>
+          <Button variant="primary" onClick={formik.handleSubmit} type="submit" className="m-1">
+            {t('addChannelModal.submit')}
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
-
-const renderFormContent = (formik, t) => {
-  return (
-    <Form.Group className="mb-3" controlId="name">
-      <Form.Control
-        value={formik.values.name}
-        onChange={formik.handleChange}
-        type="text"
-        name="name"
-        disabled={formik.isSubmitting}
-        placeholder={t('addChannelModal.label')}
-        autoFocus
-        isInvalid={formik.errors.name && formik.touched.name}
-      />
-      <Form.Label className="visually-hidden" htmlFor="name">
-        {t('addChannelModal.label')}
-      </Form.Label>
-      {renderErrorFeedback(formik)}
-      {renderButtons(t)}
-    </Form.Group>
-  );
-};
-
-const renderErrorFeedback = (formik) => {
-  if (formik.errors.name && formik.touched.name) {
-    return <FormText className="feedback text-danger mt-3">{formik.errors.name}</FormText>;
-  }
-  return null;
-};
-
-const renderButtons = (t) => {
-  return (
-    <>
-      <Button variant="secondary" onClick={handleModalClose} className="m-1">
-        {t('addChannelModal.cancel')}
-      </Button>
-      <Button variant="primary" onClick={formik.handleSubmit} type="submit" className="m-1">
-        {t('addChannelModal.submit')}
-      </Button>
-    </>
   );
 };
 

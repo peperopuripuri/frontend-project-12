@@ -5,16 +5,12 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import Rollbar from 'rollbar';
 import leoProfanity from 'leo-profanity';
-import resources from './locales/index';
+import resources from './locales/index.js';
 import store from './store/store';
 import App from './components/App';
-import SocketApiProvider from './components/SocketApiProvider';
-import { addMessage } from './store/slices/messagesSlice';
-import {
-  addChannel,
-  removeChannel,
-  renameChannel,
-} from './store/slices/channelsSlice';
+import SocketApiProvider from './components/SocketApiProvider.jsx';
+import { addMessage } from './store/slices/messagesSlice.js';
+import { addChannel, removeChannel, renameChannel } from './store/slices/channelsSlice.js';
 
 const init = async (socket) => {
   socket.on('disconnect', () => {
@@ -31,20 +27,20 @@ const init = async (socket) => {
     store.dispatch(removeChannel(payload));
   });
   socket.on('renameChannel', (payload) => {
-    store.dispatch(
-      renameChannel({
-        id: payload.id,
-        name: payload.name,
-        removable: true,
-      }),
-    );
+    store.dispatch(renameChannel({
+      id: payload.id,
+      name: payload.name,
+      removable: true,
+    }));
   });
 
   const i18n = i18next.createInstance();
-  await i18n.use(initReactI18next).init({
-    resources,
-    fallbackLng: 'ru',
-  });
+  await i18n
+    .use(initReactI18next)
+    .init({
+      resources,
+      fallbackLng: 'ru',
+    });
 
   leoProfanity.clearList();
   leoProfanity.add(leoProfanity.getDictionary('ru'));
@@ -54,6 +50,7 @@ const init = async (socket) => {
     accessToken: process.env.REACT_APP_ROLLBAR,
     environment: 'production',
   };
+
   const rollbar = new Rollbar(rollbarConfig);
 
   return (

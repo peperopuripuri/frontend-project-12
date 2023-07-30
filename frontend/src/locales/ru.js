@@ -50,10 +50,10 @@ export default {
     },
     notFoundPage: {
       number: '404',
-      danger: 'Оо!!!',
-      notFound: 'Страница не найдена.',
-      info: 'Такой не существует.',
-      redirect: 'Домой',
+      danger: 'Opps!',
+      notFound: 'Page not found.',
+      info: 'The page you’re looking for doesn’t exist.',
+      redirect: 'Go Home',
     },
     signUpPage: {
       header: 'Hexlet Chat',
