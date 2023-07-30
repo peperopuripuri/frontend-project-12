@@ -57,7 +57,7 @@ const SignUpPage = () => {
   const { logIn } = useAuth();
   const { t } = useTranslation();
 
-  async const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { username, password } = values;
     const userData = {
       username,
