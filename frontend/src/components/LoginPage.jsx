@@ -24,7 +24,7 @@ const Header = ({ title }) => (
   </nav>
 );
 
-function LoginForm({ onSubmit, authError, t }) {
+const LoginForm = ({ onSubmit, authError, t }) => {
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -142,8 +142,8 @@ const LoginPage = () => {
       }
       const { statusText } = error.response;
       const message = statusText === 'Unauthorized'
-          ? t('loginPage.validation.wrongData')
-          : t('loginPage.validation.unknown');
+        ? t('loginPage.validation.wrongData')
+        : t('loginPage.validation.unknown');
       setAuthError(message);
     }
   };

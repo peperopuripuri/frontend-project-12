@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import
-{ Form,
+{
+  Form,
   Button,
   Container,
   Row,
@@ -15,7 +16,7 @@ import { useFormik } from 'formik';
 import routes from '../utils/routes';
 import useAuth from '../hooks/useAuth.hook';
 
-function renderFormField(name, placeholder, formik, error) {
+const renderFormField = (name, placeholder, formik, error) => {
   const fieldName = name;
   return (
     <Form.Group className="mb-3 form-floating" key={fieldName}>
@@ -51,7 +52,7 @@ function renderFormField(name, placeholder, formik, error) {
   );
 }
 
-function SignUpPage() {
+const SignUpPage = () => {
   const [regError, setRegError] = useState();
   const navigate = useNavigate();
   const { logIn } = useAuth();
