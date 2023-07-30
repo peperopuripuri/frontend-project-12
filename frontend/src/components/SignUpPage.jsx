@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Form,
+import {
+  Form,
   Button,
   Container,
   Row,
@@ -50,13 +51,13 @@ function renderFormField(name, placeholder, formik, error) {
   );
 }
 
-function SignUpPage() {
+consr SignUpPage = () => {
   const [regError, setRegError] = useState();
   const navigate = useNavigate();
   const { logIn } = useAuth();
   const { t } = useTranslation();
 
-  async function handleSubmit(values) {
+  async const handleSubmit = (values) => {
     const { username, password } = values;
     const userData = {
       username,
@@ -72,8 +73,8 @@ function SignUpPage() {
       }
       const { status } = error.response;
       const message = status === 409
-          ? t('signUpPage.validation.alreadyReg')
-          : t('signUpPage.validation.unknown');
+        ? t('signUpPage.validation.alreadyReg')
+        : t('signUpPage.validation.unknown');
       setRegError(message);
     }
   }

@@ -9,8 +9,7 @@ import NotFoundPage from './NotFoundPage';
 import SignUpPage from './SignUpPage';
 import routes from '../utils/routes';
 
-const App = () => {
-  return (
+const App = () => (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
@@ -23,7 +22,6 @@ const App = () => {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-  );
-}
+);
 
 export default App;

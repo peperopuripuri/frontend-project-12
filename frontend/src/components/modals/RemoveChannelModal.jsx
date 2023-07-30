@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 
-function RemoveChannelModal() {
+const RemoveChannelModal = () => {
   const dispatch = useDispatch();
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const chatApi = useSocketApi();

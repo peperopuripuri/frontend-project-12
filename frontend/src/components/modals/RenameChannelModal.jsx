@@ -4,7 +4,7 @@ import {
   Form,
   Button,
   Modal,
-  FormText
+  FormText,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -114,6 +114,6 @@ const RenameChannelModal = () => {
       </Modal.Body>
     </Modal>
   );
-}
+};
 
 export default RenameChannelModal;
