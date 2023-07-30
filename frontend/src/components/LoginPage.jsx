@@ -106,8 +106,8 @@ const LoginForm = ({ onSubmit, authError, t }) => {
           </div>
           <div className="card-footer mb-1">
             <div className="text-center">
-              <span>{t('loginPage.haveNotAccount')} </span>
-              <a href={routes.signup}>{t('loginPage.link')}</a>
+              <span>{t('loginPage.haveNotAccount')}</span>
+              <a href={routes.signip}>{t('loginPage.link')}</a>
             </div>
           </div>
         </Col>
