@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -18,7 +24,7 @@ const Header = ({ title }) => (
   </nav>
 );
 
-const LoginForm = ({ onSubmit, authError, t }) => {
+function LoginForm({ onSubmit, authError, t }) {
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -44,8 +50,8 @@ const LoginForm = ({ onSubmit, authError, t }) => {
                     name="username"
                     autoComplete="username"
                     className={`form-control ${
-                      formik.touched.username &&
-                      (authError || formik.errors.username)
+                      formik.touched.username
+                      && (authError || formik.errors.username)
                         ? 'is-invalid'
                         : ''
                     }`}
@@ -72,8 +78,8 @@ const LoginForm = ({ onSubmit, authError, t }) => {
                     name="password"
                     type="password"
                     className={`form-control ${
-                      formik.touched.password &&
-                      (authError || formik.errors.password)
+                      formik.touched.password
+                      && (authError || formik.errors.password)
                         ? 'is-invalid'
                         : ''
                     }`}
@@ -114,7 +120,7 @@ const LoginForm = ({ onSubmit, authError, t }) => {
       </Row>
     </Container>
   );
-};
+}
 
 const LoginPage = () => {
   const [authError, setAuthError] = useState(null);
@@ -135,8 +141,7 @@ const LoginPage = () => {
         setAuthError(t('loginPage.validation.unknown'));
       }
       const { statusText } = error.response;
-      const message =
-        statusText === 'Unauthorized'
+      const message = statusText === 'Unauthorized'
           ? t('loginPage.validation.wrongData')
           : t('loginPage.validation.unknown');
       setAuthError(message);
