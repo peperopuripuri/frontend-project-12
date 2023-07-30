@@ -51,7 +51,7 @@ function renderFormField(name, placeholder, formik, error) {
   );
 }
 
-consr SignUpPage = () => {
+const SignUpPage = () => {
   const [regError, setRegError] = useState();
   const navigate = useNavigate();
   const { logIn } = useAuth();
