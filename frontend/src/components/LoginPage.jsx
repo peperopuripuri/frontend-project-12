@@ -120,7 +120,7 @@ const LoginForm = ({ onSubmit, authError, t }) => {
       </Row>
     </Container>
   );
-}
+};
 
 const LoginPage = () => {
   const [authError, setAuthError] = useState(null);

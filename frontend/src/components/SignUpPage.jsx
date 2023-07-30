@@ -50,7 +50,7 @@ const renderFormField = (name, placeholder, formik, error) => {
       )}
     </Form.Group>
   );
-}
+};
 
 const SignUpPage = () => {
   const [regError, setRegError] = useState();
@@ -155,6 +155,6 @@ const SignUpPage = () => {
       </Container>
     </>
   );
-}
+};
 
 export default SignUpPage;
