@@ -1,10 +1,7 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Form,
-  Button,
-  Modal,
-  FormText,
+  Form, Button, Modal, FormText,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -13,9 +10,11 @@ import * as Yup from 'yup';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 
-const RenameChannelModal = () => {
+function RenameChannelModal() {
   const channels = useSelector((state) => state.channels.channels);
   const channelId = useSelector((state) => state.channels.currentChannelId);
+  const currentChannel = channels.find((channel) => channel.id === channelId);
+  const currentChannelName = currentChannel.name;
 
   const dispatch = useDispatch();
   const chatApi = useSocketApi();
@@ -26,39 +25,44 @@ const RenameChannelModal = () => {
     inputEl.current.select();
   }, []);
 
-  const currentChannel = channels.find((channel) => channel.id === channelId);
-  const currentChannelName = currentChannel.name;
+  const handleRename = async (values) => {
+    try {
+      await chatApi.renameChannel({ id: channelId, name: values.name });
+      toast.success(t('toast.rename'));
+      dispatch(hideModal());
+    } catch (err) {
+      toast.error(t('toast.error'));
+    }
+  };
 
-  const handleRename = useCallback(
-    async (values) => {
-      try {
-        await chatApi.renameChannel({ id: channelId, name: values.name });
-        toast.success(t('toast.rename'));
-        dispatch(hideModal());
-      } catch (err) {
-        toast.error(t('toast.error'));
-      }
-    },
-    [chatApi, channelId, dispatch, t],
-  );
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(3, t('renameChannelModal.validation.min'))
+      .notOneOf(
+        channels.map((channel) => channel.name),
+        t('renameChannelModal.validation.unique'),
+      )
+      .required(t('renameChannelModal.validation.required')),
+  });
 
   const formik = useFormik({
     initialValues: {
       name: currentChannelName,
     },
-
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .min(3, t('renameChannelModal.validation.min'))
-        .notOneOf(
-          channels.map((channel) => channel.name),
-          t('renameChannelModal.validation.unique'),
-        )
-        .required(t('renameChannelModal.validation.required')),
-    }),
-
+    validationSchema,
     onSubmit: handleRename,
   });
+
+  const renderFormFeedback = () => formik.errors.name && formik.touched.name && (
+  <FormText className="feedback text-danger mt-3">
+    {formik.errors.name}
+  </FormText>
+  );
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    formik.handleSubmit();
+  };
 
   return (
     <Modal show onHide={() => dispatch(hideModal())}>
@@ -66,7 +70,7 @@ const RenameChannelModal = () => {
         <Modal.Title>{t('renameChannelModal.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="name">
             <Form.Control
               value={formik.values.name}
@@ -83,12 +87,7 @@ const RenameChannelModal = () => {
             <Form.Label className="visually-hidden" htmlFor="name">
               {t('renameChannelModal.label')}
             </Form.Label>
-
-            {formik.errors.name && formik.touched.name && (
-              <FormText className="feedback text-danger mt-3">
-                {formik.errors.name}
-              </FormText>
-            )}
+            {renderFormFeedback()}
           </Form.Group>
           <div>
             <Button
@@ -114,6 +113,6 @@ const RenameChannelModal = () => {
       </Modal.Body>
     </Modal>
   );
-};
+}
 
 export default RenameChannelModal;
