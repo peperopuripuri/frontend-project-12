@@ -145,8 +145,8 @@ const SignUpPage = () => {
       }
       const { status } = error.response;
       const message = status === 409
-          ? t('signUpPage.validation.alreadyReg')
-          : t('signUpPage.validation.unknown');
+        ? t('signUpPage.validation.alreadyReg')
+        : t('signUpPage.validation.unknown');
       setRegError(message);
     }
   };
