@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 
-function RenameChannelModal() {
+const RenameChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannel = channels.find((channel) => channel.id === channelId);
