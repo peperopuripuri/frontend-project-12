@@ -40,57 +40,55 @@ const GetFormik = (validationSchema, handleRename, currentChannelName) => useFor
 
 const RenderModal = ({
   t, handleSubmit, formik, inputEl, dispatch,
-}) => {
-  return (
-    <Modal show onHide={() => dispatch(hideModal())}>
-      <Modal.Header closeButton>
-        <Modal.Title>{t('renameChannelModal.header')}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Control
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              ref={inputEl}
-              aria-label="form"
-              name="name"
-              type="text"
-              disabled={formik.isSubmitting}
-              autoFocus
-              autoComplete="off"
-              isInvalid={formik.errors.name && formik.touched.name}
-            />
-            <Form.Label className="visually-hidden" htmlFor="name">
-              {t('renameChannelModal.label')}
-            </Form.Label>
-            {renderFormFeedback(formik)}
-          </Form.Group>
-          <div>
-            <Button
-              className="m-1"
-              role="button"
-              disabled={formik.isSubmitting}
-              variant="secondary"
-              onClick={() => dispatch(hideModal())}
-            >
-              {t('renameChannelModal.cancel')}
-            </Button>
-            <Button
-              className="m-1"
-              variant="primary"
-              disabled={formik.isSubmitting}
-              role="button"
-              type="submit"
-            >
-              {t('renameChannelModal.rename')}
-            </Button>
-          </div>
-        </Form>
-      </Modal.Body>
-    </Modal>
-  );
-}
+}) => (
+  <Modal show onHide={() => dispatch(hideModal())}>
+    <Modal.Header closeButton>
+      <Modal.Title>{t('renameChannelModal.header')}</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="name">
+          <Form.Control
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            ref={inputEl}
+            aria-label="form"
+            name="name"
+            type="text"
+            disabled={formik.isSubmitting}
+            autoFocus
+            autoComplete="off"
+            isInvalid={formik.errors.name && formik.touched.name}
+          />
+          <Form.Label className="visually-hidden" htmlFor="name">
+            {t('renameChannelModal.label')}
+          </Form.Label>
+          {renderFormFeedback(formik)}
+        </Form.Group>
+        <div>
+          <Button
+            className="m-1"
+            role="button"
+            disabled={formik.isSubmitting}
+            variant="secondary"
+            onClick={() => dispatch(hideModal())}
+          >
+            {t('renameChannelModal.cancel')}
+          </Button>
+          <Button
+            className="m-1"
+            variant="primary"
+            disabled={formik.isSubmitting}
+            role="button"
+            type="submit"
+          >
+            {t('renameChannelModal.rename')}
+          </Button>
+        </div>
+      </Form>
+    </Modal.Body>
+  </Modal>
+);
 
 const RenameChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
@@ -135,6 +133,6 @@ const RenameChannelModal = () => {
       dispatch={dispatch}
     />
   );
-}
+};
 
 export default RenameChannelModal;
