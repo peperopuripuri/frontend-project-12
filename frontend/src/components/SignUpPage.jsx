@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Form, Button, Container, Row, Col, FormText } from 'react-bootstrap';
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  FormText,
+} from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -44,30 +51,29 @@ const renderFormField = (name, placeholder, formik, error) => {
   );
 };
 
-const getFormikFieldProps = (t, handleSubmit) =>
-  useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-      confirmPassword: '',
-    },
-    validationSchema: Yup.object({
-      username: Yup.string()
-        .min(3, t('signUpPage.validation.minMaxUsername'))
-        .max(20, t('signUpPage.validation.minMaxUsername'))
-        .required(t('signUpPage.validation.required')),
-      password: Yup.string()
-        .min(6, t('signUpPage.validation.minPassword'))
-        .required(t('signUpPage.validation.required')),
-      confirmPassword: Yup.string()
-        .oneOf(
-          [Yup.ref('password'), null],
-          t('signUpPage.validation.confirmPassword'),
-        )
-        .required(t('signUpPage.validation.required')),
-    }),
-    onSubmit: handleSubmit,
-  });
+const GetFormikFieldProps = (t, handleSubmit) => useFormik({
+  initialValues: {
+    username: '',
+    password: '',
+    confirmPassword: '',
+  },
+  validationSchema: Yup.object({
+    username: Yup.string()
+      .min(3, t('signUpPage.validation.minMaxUsername'))
+      .max(20, t('signUpPage.validation.minMaxUsername'))
+      .required(t('signUpPage.validation.required')),
+    password: Yup.string()
+      .min(6, t('signUpPage.validation.minPassword'))
+      .required(t('signUpPage.validation.required')),
+    confirmPassword: Yup.string()
+      .oneOf(
+        [Yup.ref('password'), null],
+        t('signUpPage.validation.confirmPassword'),
+      )
+      .required(t('signUpPage.validation.required')),
+  }),
+  onSubmit: handleSubmit,
+});
 
 const RenderNav = ({ t }) => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -146,7 +152,7 @@ const SignUpPage = () => {
     }
   };
 
-  const formik = getFormikFieldProps(t, handleSubmit);
+  const formik = GetFormikFieldPropsetFormikFieldProps(t, handleSubmit);
 
   return (
     <>
