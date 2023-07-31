@@ -152,7 +152,7 @@ const SignUpPage = () => {
     }
   };
 
-  const formik = GetFormikFieldPropsetFormikFieldProps(t, handleSubmit);
+  const formik = GetFormikFieldProps(t, handleSubmit);
 
   return (
     <>
