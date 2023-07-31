@@ -15,8 +15,8 @@ const MessageItem = ({ msg, user }) => {
   return (
     <div key={id} className="text-break mb-2">
       <b className={isCurrentUser ? 'text-white bg-dark' : ''}>{username}</b>
-:
-{' '}
+      :
+      {' '}
       {body}
     </div>
   );
@@ -98,7 +98,7 @@ const Messages = () => {
         <p className="m-0">
           <b>
             {t('messages.id')}
-{' '}
+            {' '}
             {currentChannel ? currentChannel.name : t('messages.loading')}
           </b>
         </p>
