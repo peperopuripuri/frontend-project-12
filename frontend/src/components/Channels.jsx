@@ -6,9 +6,9 @@ import cn from 'classnames';
 import { setCurrentChannelId } from '../store/slices/channelsSlice';
 import { showModal } from '../store/slices/modalsSlice';
 
-function ChannelButton({
+const ChannelButton = ({
   id, name, currentChannelId, t, onClick,
-}) {
+}) => {
   const isActive = id === currentChannelId;
   const activeClassName = cn('btn', {
     'btn-secondary': isActive,
@@ -27,11 +27,11 @@ function ChannelButton({
       {name}
     </button>
   );
-}
+};
 
-function RemovableChannel({
+const RemovableChannel = ({
   id, name, currentChannelId, t, dispatch,
-}) {
+}) => {
   const handlerVariant = () => (id === currentChannelId ? 'secondary' : 'outline-secondary');
 
   const handleChannelClick = () => {
@@ -79,9 +79,9 @@ function RemovableChannel({
       </div>
     </li>
   );
-}
+};
 
-function Channels() {
+const Channels = () => {
   const dispatch = useDispatch();
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const { t } = useTranslation();
@@ -152,6 +152,6 @@ function Channels() {
       </ul>
     </Col>
   );
-}
+};
 
 export default Channels;
