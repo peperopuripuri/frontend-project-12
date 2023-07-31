@@ -110,14 +110,15 @@ function Channels() {
     }
 
     return (
-      <RemovableChannel
-        key={id}
-        id={id}
-        name={name}
-        currentChannelId={currentChannelId}
-        t={t}
-        dispatch={dispatch}
-      />
+        // eslint-disable-next-line react/jsx-indent
+        <RemovableChannel
+          key={id}
+          id={id}
+          name={name}
+          currentChannelId={currentChannelId}
+          t={t}
+          dispatch={dispatch}
+        />
     );
   });
 
