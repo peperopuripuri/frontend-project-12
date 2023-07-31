@@ -1,15 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import
-{
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  FormText,
-} from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, FormText } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -52,35 +44,8 @@ const renderFormField = (name, placeholder, formik, error) => {
   );
 };
 
-const SignUpPage = () => {
-  const [regError, setRegError] = useState();
-  const navigate = useNavigate();
-  const { logIn } = useAuth();
-  const { t } = useTranslation();
-
-  const handleSubmit = async (values) => {
-    const { username, password } = values;
-    const userData = {
-      username,
-      password,
-    };
-    try {
-      const response = await axios.post(routes.signupPath(), userData);
-      logIn({ ...response.data });
-      navigate(routes.home);
-    } catch (error) {
-      if (!error.isAxiosError) {
-        setRegError(t('signUpPage.validation.unknown'));
-      }
-      const { status } = error.response;
-      const message = status === 409
-        ? t('signUpPage.validation.alreadyReg')
-        : t('signUpPage.validation.unknown');
-      setRegError(message);
-    }
-  };
-
-  const formik = useFormik({
+const getFormikFieldProps = (t, handleSubmit) =>
+  useFormik({
     initialValues: {
       username: '',
       password: '',
@@ -104,55 +69,89 @@ const SignUpPage = () => {
     onSubmit: handleSubmit,
   });
 
+const RenderNav = ({ t }) => (
+  <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+    <Container>
+      <a href={routes.home} className="navbar-brand">
+        {t('loginPage.header')}
+      </a>
+    </Container>
+  </nav>
+);
+
+const RenderContainer = ({ t, formik, regError }) => (
+  <Container className="mt-5 container d-flex align-items-center justify-content-center">
+    <Row className="w-50">
+      <Col className=" border rounded .mx-auto mb-5 shadow">
+        <h1 className="text-center p-3">{t('signUpPage.title')}</h1>
+        <Form onSubmit={formik.handleSubmit} className="px-4">
+          {renderFormField('username', t('signUpPage.placeholderName'), formik)}
+          {renderFormField(
+            'password',
+            t('signUpPage.placeholderPassword'),
+            formik,
+          )}
+          {renderFormField(
+            'confirmPassword',
+            t('signUpPage.placeholderConfirmPassord'),
+            formik,
+            regError,
+          )}
+          <Button
+            disabled={formik.isSubmitting}
+            className="mb-10 w-100"
+            variant="primary"
+            type="submit"
+          >
+            {t('signUpPage.submit')}
+          </Button>
+        </Form>
+        <p className="mt-3 text-center">
+          {t('signUpPage.alreadyRegistered')}
+          <Link style={{ marginLeft: 5 }} to={routes.home}>
+            {t('signUpPage.link')}
+          </Link>
+        </p>
+      </Col>
+    </Row>
+  </Container>
+);
+
+const SignUpPage = () => {
+  const [regError, setRegError] = useState();
+  const navigate = useNavigate();
+  const { logIn } = useAuth();
+  const { t } = useTranslation();
+
+  const handleSubmit = async (values) => {
+    const { username, password } = values;
+    const userData = {
+      username,
+      password,
+    };
+    try {
+      const response = await axios.post(routes.signupPath(), userData);
+      logIn({ ...response.data });
+      navigate(routes.home);
+    } catch (error) {
+      if (!error.isAxiosError) {
+        setRegError(t('signUpPage.validation.unknown'));
+      }
+      const { status } = error.response;
+      const message =
+        status === 409
+          ? t('signUpPage.validation.alreadyReg')
+          : t('signUpPage.validation.unknown');
+      setRegError(message);
+    }
+  };
+
+  const formik = getFormikFieldProps(t, handleSubmit);
+
   return (
     <>
-      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-        <Container>
-          <a href={routes.home} className="navbar-brand">
-            {t('loginPage.header')}
-          </a>
-        </Container>
-      </nav>
-
-      <Container className="mt-5 container d-flex align-items-center justify-content-center">
-        <Row className="w-50">
-          <Col className=" border rounded .mx-auto mb-5 shadow">
-            <h1 className="text-center p-3">{t('signUpPage.title')}</h1>
-            <Form onSubmit={formik.handleSubmit} className="px-4">
-              {renderFormField(
-                'username',
-                t('signUpPage.placeholderName'),
-                formik,
-              )}
-              {renderFormField(
-                'password',
-                t('signUpPage.placeholderPassword'),
-                formik,
-              )}
-              {renderFormField(
-                'confirmPassword',
-                t('signUpPage.placeholderConfirmPassord'),
-                formik,
-                regError,
-              )}
-              <Button
-                disabled={formik.isSubmitting}
-                className="mb-10 w-100"
-                variant="primary"
-                type="submit"
-              >
-                {t('signUpPage.submit')}
-              </Button>
-            </Form>
-            <p className="mt-3 text-center">
-              {t('signUpPage.alreadyRegistered')}
-              <Link style={{ marginLeft: 5 }} to={routes.home}>
-                {t('signUpPage.link')}
-              </Link>
-            </p>
-          </Col>
-        </Row>
-      </Container>
+      <RenderNav t={t} />
+      <RenderContainer t={t} formik={formik} regError={regError} />
     </>
   );
 };
