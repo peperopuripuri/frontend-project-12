@@ -39,9 +39,9 @@ const GetFormik = (validationSchema, handleRename, currentChannelName) => (
 );
 
 const RenderModal = ({
-  t, handleSubmit, formik, inputEl, dispatch
+  t, handleSubmit, formik, inputEl, dispatch,
 }) => (
-    <Modal show onHide={() => dispatch(hideModal())}>
+  <Modal show onHide={() => dispatch(hideModal())}>
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannelModal.header')}</Modal.Title>
       </Modal.Header>
@@ -88,7 +88,7 @@ const RenderModal = ({
         </Form>
       </Modal.Body>
     </Modal>
-  );
+);
 
 const RenameChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
@@ -133,6 +133,6 @@ const RenameChannelModal = () => {
       dispatch={dispatch}
     />
   );
-}
+};
 
 export default RenameChannelModal;
