@@ -90,12 +90,16 @@ const RenderModal = ({
   </Modal>
 );
 
+const handleSubmit = (event, formik) => {
+  event.preventDefault();
+  formik.handleSubmit();
+};
+
 const RenameChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannel = channels.find((channel) => channel.id === channelId);
   const currentChannelName = currentChannel.name;
-
   const dispatch = useDispatch();
   const chatApi = useSocketApi();
   const inputEl = useRef();
@@ -114,20 +118,13 @@ const RenameChannelModal = () => {
       toast.error(t('toast.error'));
     }
   };
-
   const validationSchema = getValidation(t, channels);
-
   const formik = GetFormik(validationSchema, handleRename, currentChannelName);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    formik.handleSubmit();
-  };
 
   return (
     <RenderModal
       t={t}
-      handleSubmit={handleSubmit}
+      handleSubmit={(event) => handleSubmit(event, formik)}
       formik={formik}
       inputEl={inputEl}
       dispatch={dispatch}
