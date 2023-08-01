@@ -12,45 +12,61 @@ import SocketApiProvider from './components/SocketApiProvider.jsx';
 import { addMessage } from './store/slices/messagesSlice.js';
 import { addChannel, removeChannel, renameChannel } from './store/slices/channelsSlice.js';
 
-const init = async (socket) => {
-  socket.on('disconnect', () => {
-    localStorage.removeItem('user');
-  });
+const handleDisconnect = () => {
+  localStorage.removeItem('user');
+};
 
-  socket.on('newMessage', (payload) => {
-    store.dispatch(addMessage(payload));
-  });
-  socket.on('newChannel', (payload) => {
-    store.dispatch(addChannel(payload));
-  });
-  socket.on('removeChannel', (payload) => {
-    store.dispatch(removeChannel(payload));
-  });
-  socket.on('renameChannel', (payload) => {
-    store.dispatch(renameChannel({
+const handleNewMessage = (payload) => {
+  store.dispatch(addMessage(payload));
+};
+
+const handleNewChannel = (payload) => {
+  store.dispatch(addChannel(payload));
+};
+
+const handleRemoveChannel = (payload) => {
+  store.dispatch(removeChannel(payload));
+};
+
+const handleRenameChannel = (payload) => {
+  store.dispatch(
+    renameChannel({
       id: payload.id,
       name: payload.name,
       removable: true,
-    }));
-  });
+    }),
+  );
+};
 
+const initI18n = async () => {
   const i18n = i18next.createInstance();
-  await i18n
-    .use(initReactI18next)
-    .init({
-      resources,
-      fallbackLng: 'ru',
-    });
+  await i18n.use(initReactI18next).init({
+    resources,
+    fallbackLng: 'ru',
+  });
+  return i18n;
+};
 
+const setupLeoProfanity = () => {
   leoProfanity.clearList();
   leoProfanity.add(leoProfanity.getDictionary('ru'));
   leoProfanity.add(leoProfanity.getDictionary('en'));
+};
+
+const init = async (socket) => {
+  socket.on('disconnect', handleDisconnect);
+  socket.on('newMessage', handleNewMessage);
+  socket.on('newChannel', handleNewChannel);
+  socket.on('removeChannel', handleRemoveChannel);
+  socket.on('renameChannel', handleRenameChannel);
+
+  const i18n = await initI18n();
+  setupLeoProfanity();
 
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR,
     environment: 'production',
   };
-
   const rollbar = new Rollbar(rollbarConfig);
 
   return (
