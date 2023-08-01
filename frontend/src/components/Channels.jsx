@@ -6,7 +6,9 @@ import cn from 'classnames';
 import { setCurrentChannelId } from '../store/slices/channelsSlice';
 import { showModal } from '../store/slices/modalsSlice';
 
-const ChannelButton = ({ id, name, currentChannelId, t, onClick }) => {
+const ChannelButton = ({
+  id, name, currentChannelId, t, onClick,
+}) => {
   const isActive = id === currentChannelId;
   const activeClassName = cn('btn', {
     'btn-secondary': isActive,
@@ -27,9 +29,10 @@ const ChannelButton = ({ id, name, currentChannelId, t, onClick }) => {
   );
 };
 
-const RemovableChannel = ({ id, name, currentChannelId, t, dispatch }) => {
-  const handlerVariant = () =>
-    id === currentChannelId ? 'secondary' : 'outline-secondary';
+const RemovableChannel = ({
+  id, name, currentChannelId, t, dispatch,
+}) => {
+  const handlerVariant = () => (id === currentChannelId ? 'secondary' : 'outline-secondary');
 
   const handleChannelClick = () => {
     dispatch(setCurrentChannelId(id));
@@ -122,33 +125,32 @@ const Channels = () => {
     dispatch(showModal({ modalType: 'adding', channelId: null }));
   };
 
-  const renderChannels = () =>
-    channels.map(({ id, name, removable }) => {
-      if (!removable) {
-        return (
-          <li key={id} className="nav-item w-100">
-            <ChannelButton
-              id={id}
-              name={name}
-              currentChannelId={currentChannelId}
-              t={t}
-              onClick={handleChannelClick}
-            />
-          </li>
-        );
-      }
-
+  const renderChannels = () => channels.map(({ id, name, removable }) => {
+    if (!removable) {
       return (
-        <RemovableChannel
-          key={id}
-          id={id}
-          name={name}
-          currentChannelId={currentChannelId}
-          t={t}
-          dispatch={dispatch}
-        />
+        <li key={id} className="nav-item w-100">
+          <ChannelButton
+            id={id}
+            name={name}
+            currentChannelId={currentChannelId}
+            t={t}
+            onClick={handleChannelClick}
+          />
+        </li>
       );
-    });
+    }
+
+    return (
+      <RemovableChannel
+        key={id}
+        id={id}
+        name={name}
+        currentChannelId={currentChannelId}
+        t={t}
+        dispatch={dispatch}
+      />
+    );
+  });
 
   return (
     <RenderCol
