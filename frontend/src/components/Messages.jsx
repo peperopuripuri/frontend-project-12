@@ -54,6 +54,42 @@ const RenderForm = ({
   </Form>
 );
 
+const RenderCol = ({
+  t,
+  currentChannel,
+  messagesList,
+  controlInput,
+  formHandler,
+  count,
+  inputValue,
+}) => (
+  <Col className="col-9 p-0 d-flex flex-column h-100">
+    <div className="bg-light mb-4 p-3 shadow-sm small">
+      <p className="m-0">
+        <b>
+          {t('messages.id')}
+          {' '}
+          {currentChannel ? currentChannel.name : t('messages.loading')}
+        </b>
+      </p>
+      <span className="text-muted">{t('messagesCount.key', { count })}</span>
+    </div>
+
+    <div className="flex-grow-1 overflow-auto px-5" id="messages-box">
+      {messagesList}
+    </div>
+
+    <div className="mt-auto px-5 mb-2">
+      <RenderForm
+        t={t}
+        formHandler={formHandler}
+        controlInput={controlInput}
+        inputValue={inputValue}
+      />
+    </div>
+  </Col>
+);
+
 const Messages = () => {
   const chatApi = useSocketApi();
   const { user } = useAuth();
@@ -93,31 +129,15 @@ const Messages = () => {
   ));
 
   return (
-    <Col className="col-9 p-0 d-flex flex-column h-100">
-      <div className="bg-light mb-4 p-3 shadow-sm small">
-        <p className="m-0">
-          <b>
-            {t('messages.id')}
-            {' '}
-            {currentChannel ? currentChannel.name : t('messages.loading')}
-          </b>
-        </p>
-        <span className="text-muted">{t('messagesCount.key', { count })}</span>
-      </div>
-
-      <div className="flex-grow-1 overflow-auto px-5" id="messages-box">
-        {messagesList}
-      </div>
-
-      <div className="mt-auto px-5 mb-2">
-        <RenderForm
-          t={t}
-          formHandler={formHandler}
-          controlInput={controlInput}
-          inputValue={inputValue}
-        />
-      </div>
-    </Col>
+    <RenderCol
+      t={t}
+      currentChannel={currentChannel}
+      messagesList={messagesList}
+      controlInput={controlInput}
+      formHandler={formHandler}
+      count={count}
+      inputValue={inputValue}
+    />
   );
 };
 
