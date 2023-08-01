@@ -59,21 +59,31 @@ const RenderModal = ({ t, formik, dispatch }) => (
   </Modal>
 );
 
+const CreateValidate = (t, channels) => Yup.object({
+  name: Yup.string()
+    .min(3, t('addChannelModal.validation.min'))
+    .notOneOf(
+      channels.map((c) => c.name),
+      t('addChannelModal.validation.unique'),
+    )
+    .required(t('addChannelModal.validation.required')),
+});
+
+const CreateFormik = (handleSubmit, validate) => useFormik({
+  initialValues: {
+    name: '',
+  },
+  onSubmit: handleSubmit,
+  validationSchema: validate,
+});
+
 const AddChannelModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const chatApi = useSocketApi();
   const { t } = useTranslation();
 
-  const validate = Yup.object({
-    name: Yup.string()
-      .min(3, t('addChannelModal.validation.min'))
-      .notOneOf(
-        channels.map((c) => c.name),
-        t('addChannelModal.validation.unique'),
-      )
-      .required(t('addChannelModal.validation.required')),
-  });
+  const validate = CreateValidate(t, channels);
 
   const handleSubmit = useCallback(
     async (values, { resetForm }) => {
@@ -95,13 +105,7 @@ const AddChannelModal = () => {
     [chatApi, dispatch, t],
   );
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-    },
-    onSubmit: handleSubmit,
-    validationSchema: validate,
-  });
+  const formik = CreateFormik(handleSubmit, validate);
 
   return <RenderModal t={t} formik={formik} dispatch={dispatch} />;
 };
