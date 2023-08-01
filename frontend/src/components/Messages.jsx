@@ -90,6 +90,21 @@ const RenderCol = ({
   </Col>
 );
 
+const formHandler = (e, currentChannelId, chatApi, user, setInputValue) => {
+  e.preventDefault();
+  e.target.value = '';
+  const formData = new FormData(e.target);
+  const body = formData.get('body');
+  const clearedMessage = leoProfanity.clean(body);
+  const messageData = {
+    body: clearedMessage,
+    channelId: currentChannelId,
+    username: user.username,
+  };
+  chatApi.sendMessage(messageData);
+  setInputValue('');
+};
+
 const Messages = () => {
   const chatApi = useSocketApi();
   const { user } = useAuth();
@@ -109,21 +124,6 @@ const Messages = () => {
     setInputValue(e.target.value);
   };
 
-  const formHandler = (e) => {
-    e.preventDefault();
-    e.target.value = '';
-    const formData = new FormData(e.target);
-    const body = formData.get('body');
-    const clearedMessage = leoProfanity.clean(body);
-    const messageData = {
-      body: clearedMessage,
-      channelId: currentChannelId,
-      username: user.username,
-    };
-    chatApi.sendMessage(messageData);
-    setInputValue('');
-  };
-
   const messagesList = currentChannelMessages.map((msg) => (
     <MessageItem key={msg.id} msg={msg} user={user} />
   ));
@@ -134,7 +134,7 @@ const Messages = () => {
       currentChannel={currentChannel}
       messagesList={messagesList}
       controlInput={controlInput}
-      formHandler={formHandler}
+      formHandler={(e) => formHandler(e, currentChannelId, chatApi, user, setInputValue)}
       count={count}
       inputValue={inputValue}
     />
