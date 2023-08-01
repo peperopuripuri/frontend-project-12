@@ -112,6 +112,39 @@ const RenderCol = ({ handleAddChannelClick, renderChannels, t }) => (
   </Col>
 );
 
+const renderChannels = (
+  channels,
+  t,
+  currentChannelId,
+  handleChannelClick,
+  dispatch,
+) => channels.map(({ id, name, removable }) => {
+  if (!removable) {
+    return (
+      <li key={id} className="nav-item w-100">
+        <ChannelButton
+          id={id}
+          name={name}
+          currentChannelId={currentChannelId}
+          t={t}
+          onClick={handleChannelClick}
+        />
+      </li>
+    );
+  }
+
+  return (
+    <RemovableChannel
+      key={id}
+      id={id}
+      name={name}
+      currentChannelId={currentChannelId}
+      t={t}
+      dispatch={dispatch}
+    />
+  );
+});
+
 const Channels = () => {
   const dispatch = useDispatch();
   const { channels, currentChannelId } = useSelector((state) => state.channels);
@@ -125,37 +158,16 @@ const Channels = () => {
     dispatch(showModal({ modalType: 'adding', channelId: null }));
   };
 
-  const renderChannels = () => channels.map(({ id, name, removable }) => {
-    if (!removable) {
-      return (
-        <li key={id} className="nav-item w-100">
-          <ChannelButton
-            id={id}
-            name={name}
-            currentChannelId={currentChannelId}
-            t={t}
-            onClick={handleChannelClick}
-          />
-        </li>
-      );
-    }
-
-    return (
-      <RemovableChannel
-        key={id}
-        id={id}
-        name={name}
-        currentChannelId={currentChannelId}
-        t={t}
-        dispatch={dispatch}
-      />
-    );
-  });
-
   return (
     <RenderCol
       handleAddChannelClick={handleAddChannelClick}
-      renderChannels={renderChannels}
+      renderChannels={() => renderChannels(
+        channels,
+        t,
+        currentChannelId,
+        handleChannelClick,
+        dispatch,
+      )}
       t={t}
     />
   );
