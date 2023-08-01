@@ -14,18 +14,34 @@ import { setChannels } from '../store/slices/channelsSlice';
 import { setMessages } from '../store/slices/messagesSlice';
 import getModal from './modals';
 
+const RenderChat = ({ renderModal, modalType }) => (
+  <div className="h-100">
+    <div className="d-flex flex-column h-100">
+      <Header />
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="h-100 bg-white flex-md-row">
+          <Channels />
+          <Messages />
+          <ToastContainer />
+        </Row>
+        {renderModal(modalType)}
+      </Container>
+    </div>
+  </div>
+);
+
+const renderModal = (type) => {
+  if (!type) {
+    return null;
+  }
+  const Modal = getModal(type);
+  return <Modal />;
+};
+
 const ChatPage = () => {
   const dispatch = useDispatch();
   const { getAuthHeaders } = useAuth();
   const modalType = useSelector((state) => state.modal.modalType);
-
-  const renderModal = (type) => {
-    if (!type) {
-      return null;
-    }
-    const Modal = getModal(type);
-    return <Modal />;
-  };
 
   useEffect(() => {
     const getData = async () => {
@@ -37,21 +53,7 @@ const ChatPage = () => {
     getData();
   }, [dispatch, getAuthHeaders]);
 
-  return (
-    <div className="h-100">
-      <div className="d-flex flex-column h-100">
-        <Header />
-        <Container className="h-100 my-4 overflow-hidden rounded shadow">
-          <Row className="h-100 bg-white flex-md-row">
-            <Channels />
-            <Messages />
-            <ToastContainer />
-          </Row>
-          {renderModal(modalType)}
-        </Container>
-      </div>
-    </div>
-  );
+  return <RenderChat renderModal={renderModal} modalType={modalType} />;
 };
 
 export default ChatPage;
