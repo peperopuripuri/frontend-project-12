@@ -1,7 +1,7 @@
 const appRoutes = {
   home: '/',
   login: '/login',
-  signip: '/signup',
+  signup: '/signup',
   error: '*',
 };
 

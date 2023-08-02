@@ -13,6 +13,7 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import routes from '../utils/routes';
 import useAuth from '../hooks/useAuth.hook';
+import appRoutes from '../utils/appRoutes';
 
 const Header = ({ title }) => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
@@ -113,7 +114,7 @@ const LoginForm = ({ onSubmit, authError, t }) => {
           <div className="card-footer mb-1">
             <div className="text-center">
               <span>{t('loginPage.haveNotAccount')}</span>
-              <a href={routes.signip}>{t('loginPage.link')}</a>
+              <a href={appRoutes.signup}>{t('loginPage.link')}</a>
             </div>
           </div>
         </Col>

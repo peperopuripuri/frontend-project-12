@@ -18,7 +18,7 @@ const App = () => (
         </Route>
         <Route path={appRoutes.login} element={<LoginPage />} />
         <Route path={appRoutes.error} element={<NotFoundPage />} />
-        <Route path={appRoutes.signip} element={<SignUpPage />} />
+        <Route path={appRoutes.signup} element={<SignUpPage />} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>
