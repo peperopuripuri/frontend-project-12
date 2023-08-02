@@ -7,18 +7,17 @@ import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
 import NotFoundPage from './NotFoundPage';
 import SignUpPage from './SignUpPage';
-import appRoutes from '../utils/appRoutes';
 
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path={appRoutes.home} element={<ChatPage />} />
+          <Route path="/" element={<ChatPage />} />
         </Route>
-        <Route path={appRoutes.login} element={<LoginPage />} />
-        <Route path={appRoutes.error} element={<NotFoundPage />} />
-        <Route path={appRoutes.signup} element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>

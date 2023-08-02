@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   Form,
   Button,
@@ -13,14 +13,14 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import routes from '../utils/routes';
 import useAuth from '../hooks/useAuth.hook';
-import appRoutes from '../utils/appRoutes';
 
 const Header = ({ title }) => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
     <Container>
-      <a href="/" className="navbar-brand">
+      <Link to="/" className="navbar-brand">
         {title}
-      </a>
+      </Link>
+
     </Container>
   </nav>
 );
@@ -114,7 +114,7 @@ const LoginForm = ({ onSubmit, authError, t }) => {
           <div className="card-footer mb-1">
             <div className="text-center">
               <span>{t('loginPage.haveNotAccount')}</span>
-              <a href={appRoutes.signup}>{t('loginPage.link')}</a>
+              <Link to="/signup">{t('loginPage.link')}</Link>
             </div>
           </div>
         </Col>
@@ -135,7 +135,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post(routes.loginPath(), userData);
       logIn(response.data);
-      navigate(routes.home);
+      navigate('/');
       setAuthError(null);
     } catch (error) {
       if (!error.isAxiosError) {

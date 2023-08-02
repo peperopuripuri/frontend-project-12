@@ -78,9 +78,9 @@ const FormikProps = (t, handleSubmit) => useFormik({
 const MainNav = ({ t }) => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
     <Container>
-      <a href={routes.home} className="navbar-brand">
+      <Link to="/" className="navbar-brand">
         {t('loginPage.header')}
-      </a>
+      </Link>
     </Container>
   </nav>
 );
@@ -114,7 +114,7 @@ const MainContainer = ({ t, formik, regError }) => (
         </Form>
         <p className="mt-3 text-center">
           {t('signUpPage.alreadyRegistered')}
-          <Link style={{ marginLeft: 5 }} to={routes.home}>
+          <Link style={{ marginLeft: 5 }} to="/login">
             {t('signUpPage.link')}
           </Link>
         </p>
@@ -138,7 +138,7 @@ const SignUpPage = () => {
     try {
       const response = await axios.post(routes.signupPath(), userData);
       logIn({ ...response.data });
-      navigate(routes.home);
+      navigate('/');
     } catch (error) {
       if (!error.isAxiosError) {
         setRegError(t('signUpPage.validation.unknown'));
