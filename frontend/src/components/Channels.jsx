@@ -81,7 +81,7 @@ const RemovableChannel = ({
   );
 };
 
-const RenderCol = ({ handleAddChannelClick, renderChannels, t }) => (
+const MainCol = ({ handleAddChannelClick, renderChannels, t }) => (
   <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
     <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
       <b>{t('channels.title')}</b>
@@ -159,7 +159,7 @@ const Channels = () => {
   };
 
   return (
-    <RenderCol
+    <MainCol
       handleAddChannelClick={handleAddChannelClick}
       renderChannels={() => renderChannels(
         channels,

@@ -11,7 +11,7 @@ import useSocketApi from '../../hooks/useSocketApi.hook';
 import * as channelActions from '../../store/slices/channelsSlice';
 import { hideModal } from '../../store/slices/modalsSlice';
 
-const RenderModal = ({ t, formik, dispatch }) => (
+const ModalBody = ({ t, formik, dispatch }) => (
   <Modal show>
     <Modal.Header closeButton onHide={() => dispatch(hideModal())}>
       <Modal.Title>{t('addChannelModal.header')}</Modal.Title>
@@ -59,7 +59,7 @@ const RenderModal = ({ t, formik, dispatch }) => (
   </Modal>
 );
 
-const CreateValidate = (t, channels) => Yup.object({
+const createValidate = (t, channels) => Yup.object({
   name: Yup.string()
     .min(3, t('addChannelModal.validation.min'))
     .notOneOf(
@@ -69,7 +69,7 @@ const CreateValidate = (t, channels) => Yup.object({
     .required(t('addChannelModal.validation.required')),
 });
 
-const CreateFormik = (handleSubmit, validate) => useFormik({
+const Formik = (handleSubmit, validate) => useFormik({
   initialValues: {
     name: '',
   },
@@ -83,7 +83,7 @@ const AddChannelModal = () => {
   const chatApi = useSocketApi();
   const { t } = useTranslation();
 
-  const validate = CreateValidate(t, channels);
+  const validate = createValidate(t, channels);
 
   const handleSubmit = useCallback(
     async (values, { resetForm }) => {
@@ -105,9 +105,9 @@ const AddChannelModal = () => {
     [chatApi, dispatch, t],
   );
 
-  const formik = CreateFormik(handleSubmit, validate);
+  const formik = Formik(handleSubmit, validate);
 
-  return <RenderModal t={t} formik={formik} dispatch={dispatch} />;
+  return <ModalBody t={t} formik={formik} dispatch={dispatch} />;
 };
 
 export default AddChannelModal;

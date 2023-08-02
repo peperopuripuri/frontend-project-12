@@ -14,7 +14,7 @@ import { setChannels } from '../store/slices/channelsSlice';
 import { setMessages } from '../store/slices/messagesSlice';
 import getModal from './modals';
 
-const RenderChat = ({ renderModal, modalType }) => (
+const ChatBody = ({ renderModal, modalType }) => (
   <div className="h-100">
     <div className="d-flex flex-column h-100">
       <Header />
@@ -53,7 +53,7 @@ const ChatPage = () => {
     getData();
   }, [dispatch, getAuthHeaders]);
 
-  return <RenderChat renderModal={renderModal} modalType={modalType} />;
+  return <ChatBody renderModal={renderModal} modalType={modalType} />;
 };
 
 export default ChatPage;

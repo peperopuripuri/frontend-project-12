@@ -51,7 +51,7 @@ const renderFormField = (name, placeholder, formik, error) => {
   );
 };
 
-const GetFormikFieldProps = (t, handleSubmit) => useFormik({
+const FormikProps = (t, handleSubmit) => useFormik({
   initialValues: {
     username: '',
     password: '',
@@ -75,7 +75,7 @@ const GetFormikFieldProps = (t, handleSubmit) => useFormik({
   onSubmit: handleSubmit,
 });
 
-const RenderNav = ({ t }) => (
+const MainNav = ({ t }) => (
   <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
     <Container>
       <a href={routes.home} className="navbar-brand">
@@ -85,7 +85,7 @@ const RenderNav = ({ t }) => (
   </nav>
 );
 
-const RenderContainer = ({ t, formik, regError }) => (
+const MainContainer = ({ t, formik, regError }) => (
   <Container className="mt-5 container d-flex align-items-center justify-content-center">
     <Row className="w-50">
       <Col className=" border rounded .mx-auto mb-5 shadow">
@@ -151,12 +151,12 @@ const SignUpPage = () => {
     }
   };
 
-  const formik = GetFormikFieldProps(t, handleSubmit);
+  const formik = FormikProps(t, handleSubmit);
 
   return (
     <>
-      <RenderNav t={t} />
-      <RenderContainer t={t} formik={formik} regError={regError} />
+      <MainNav t={t} />
+      <MainContainer t={t} formik={formik} regError={regError} />
     </>
   );
 };

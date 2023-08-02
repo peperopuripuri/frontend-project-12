@@ -54,7 +54,7 @@ const RenderForm = ({
   </Form>
 );
 
-const RenderCol = ({
+const MainCol = ({
   t,
   currentChannel,
   messagesList,
@@ -129,7 +129,7 @@ const Messages = () => {
   ));
 
   return (
-    <RenderCol
+    <MainCol
       t={t}
       currentChannel={currentChannel}
       messagesList={messagesList}

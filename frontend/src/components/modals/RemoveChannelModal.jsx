@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 
-const RenderModal = ({ dispatch, t, handleRemove }) => (
+const ModalBody = ({ dispatch, t, handleRemove }) => (
   <Modal show onHide={() => dispatch(hideModal())}>
     <Modal.Header closeButton>
       <Modal.Title>{t('removeChannelModal.header')}</Modal.Title>
@@ -51,7 +51,7 @@ const RemoveChannelModal = () => {
     }
   }, [chatApi, channelId, dispatch, t]);
 
-  return <RenderModal dispatch={dispatch} t={t} handleRemove={handleRemove} />;
+  return <ModalBody dispatch={dispatch} t={t} handleRemove={handleRemove} />;
 };
 
 export default RemoveChannelModal;

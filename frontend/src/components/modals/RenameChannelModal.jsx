@@ -30,7 +30,7 @@ const getValidation = (t, channels) => Yup.object({
     .required(t('renameChannelModal.validation.required')),
 });
 
-const GetFormik = (validationSchema, handleRename, currentChannelName) => useFormik({
+const Formik = (validationSchema, handleRename, currentChannelName) => useFormik({
   initialValues: {
     name: currentChannelName,
   },
@@ -38,7 +38,7 @@ const GetFormik = (validationSchema, handleRename, currentChannelName) => useFor
   onSubmit: handleRename,
 });
 
-const RenderModal = ({
+const ModalBody = ({
   t, handleSubmit, formik, inputEl, dispatch,
 }) => (
   <Modal show onHide={() => dispatch(hideModal())}>
@@ -119,10 +119,10 @@ const RenameChannelModal = () => {
     }
   };
   const validationSchema = getValidation(t, channels);
-  const formik = GetFormik(validationSchema, handleRename, currentChannelName);
+  const formik = Formik(validationSchema, handleRename, currentChannelName);
 
   return (
-    <RenderModal
+    <ModalBody
       t={t}
       handleSubmit={(event) => handleSubmit(event, formik)}
       formik={formik}
