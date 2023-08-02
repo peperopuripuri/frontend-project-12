@@ -38,15 +38,6 @@ const handleRenameChannel = (payload) => {
   );
 };
 
-const initI18n = async () => {
-  const i18n = i18next.createInstance();
-  await i18n.use(initReactI18next).init({
-    resources,
-    fallbackLng: 'ru',
-  });
-  return i18n;
-};
-
 const setupLeoProfanity = () => {
   leoProfanity.clearList();
   leoProfanity.add(leoProfanity.getDictionary('ru'));
@@ -60,7 +51,11 @@ const init = async (socket) => {
   socket.on('removeChannel', handleRemoveChannel);
   socket.on('renameChannel', handleRenameChannel);
 
-  const i18n = await initI18n();
+  const i18n = i18next.createInstance();
+  await i18n.use(initReactI18next).init({
+    resources,
+    fallbackLng: 'ru',
+  });
   setupLeoProfanity();
 
   const rollbarConfig = {
