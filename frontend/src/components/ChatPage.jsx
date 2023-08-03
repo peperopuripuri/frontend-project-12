@@ -14,13 +14,14 @@ import { setChannels } from '../store/slices/channelsSlice';
 import { setMessages } from '../store/slices/messagesSlice';
 import getModal from './modals';
 import { selectModalType } from '../store/slices/selectors';
+import '../ChatPage.css';
 
 const ChatBody = ({ renderModal, modalType }) => (
   <div className="h-100">
     <div className="d-flex flex-column h-100">
       <Header />
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
-        <Row className="h-100 bg-white flex-md-row">
+        <Row className="h-100 bg-white flex-md-row main_chat">
           <Channels />
           <Messages />
           <ToastContainer />
