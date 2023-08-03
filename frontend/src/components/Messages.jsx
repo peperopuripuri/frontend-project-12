@@ -15,7 +15,7 @@ const MessageItem = ({ msg, user }) => {
 
   return (
     <div key={id} className="text-break mb-2">
-      <b className={isCurrentUser ? 'text-white bg-dark' : ''}>{username}</b>
+      <b className={isCurrentUser ? 'text-white bg-secondary' : ''}>{username}</b>
       :
       {' '}
       {body}
@@ -64,7 +64,7 @@ const MainCol = ({
   count,
   inputValue,
 }) => (
-  <Col className="col-9 p-0 d-flex flex-column h-100">
+  <Col className="col-10 p-0 d-flex flex-column h-100">
     <div className="bg-light mb-4 p-3 shadow-sm small">
       <p className="m-0">
         <b>
