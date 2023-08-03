@@ -99,6 +99,8 @@ export default {
       rename: 'Канал переименован',
       remove: 'Канал удалён',
       error: 'Ошибка соединения',
+      noDeleteDefaultChannel: 'Нельзя удалить стандартный канал',
+      noRenameDefaultChannel: 'Нельзя менять название у стандартного канала',
     },
   },
 };

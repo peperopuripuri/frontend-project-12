@@ -111,6 +111,12 @@ const RenameChannelModal = () => {
   }, []);
 
   const handleRename = async (values) => {
+    if (channelId === 0 || channelId === 1) {
+      toast.error(t('toast.noRenameDefaultChannel'));
+      dispatch(hideModal());
+      return;
+    }
+
     try {
       await chatApi.renameChannel({ id: channelId, name: values.name });
       toast.success(t('toast.rename'));
