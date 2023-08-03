@@ -43,11 +43,11 @@ const RemoveChannelModal = () => {
   const { t } = useTranslation();
 
   const handleRemove = useCallback(async () => {
-    if (channelId === 0 || channelId === 1) {
-      toast.error(t('toast.noDeleteDefaultChannel'));
-      dispatch(hideModal());
-      return;
-    }
+    // if (channelId === 0 || channelId === 1) {
+    //   toast.error(t('toast.noDeleteDefaultChannel'));
+    //   dispatch(hideModal());
+    //   return;
+    // }
 
     try {
       await chatApi.removeChannel({ id: channelId });
