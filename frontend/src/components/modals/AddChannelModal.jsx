@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import useSocketApi from '../../hooks/useSocketApi.hook';
 import * as channelActions from '../../store/slices/channelsSlice';
 import { hideModal } from '../../store/slices/modalsSlice';
+import { selectChannels } from '../../store/slices/selectors';
 
 const ModalBody = ({ t, formik, dispatch }) => (
   <Modal show>
@@ -78,7 +79,7 @@ const Formik = (handleSubmit, validate) => useFormik({
 });
 
 const AddChannelModal = () => {
-  const channels = useSelector((state) => state.channels.channels);
+  const channels = useSelector(selectChannels);
   const dispatch = useDispatch();
   const chatApi = useSocketApi();
   const { t } = useTranslation();

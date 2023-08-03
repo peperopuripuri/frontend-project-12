@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
+import { selectChannels, selectCurrentChannelId } from '../../store/slices/selectors';
 
 const renderFormFeedback = (formik) => formik.errors.name
   && formik.touched.name && (
@@ -96,8 +97,8 @@ const handleSubmit = (event, formik) => {
 };
 
 const RenameChannelModal = () => {
-  const channels = useSelector((state) => state.channels.channels);
-  const channelId = useSelector((state) => state.channels.currentChannelId);
+  const channels = useSelector(selectChannels);
+  const channelId = useSelector(selectCurrentChannelId);
   const currentChannel = channels.find((channel) => channel.id === channelId);
   const currentChannelName = currentChannel.name;
   const dispatch = useDispatch();

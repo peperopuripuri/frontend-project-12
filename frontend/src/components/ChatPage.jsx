@@ -13,6 +13,7 @@ import routes from '../utils/routes';
 import { setChannels } from '../store/slices/channelsSlice';
 import { setMessages } from '../store/slices/messagesSlice';
 import getModal from './modals';
+import { selectModalType } from '../store/slices/selectors';
 
 const ChatBody = ({ renderModal, modalType }) => (
   <div className="h-100">
@@ -41,7 +42,7 @@ const renderModal = (type) => {
 const ChatPage = () => {
   const dispatch = useDispatch();
   const { getAuthHeaders } = useAuth();
-  const modalType = useSelector((state) => state.modal.modalType);
+  const modalType = useSelector(selectModalType);
 
   useEffect(() => {
     const getData = async () => {

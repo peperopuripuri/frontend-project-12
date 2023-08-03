@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import useSocketApi from '../hooks/useSocketApi.hook';
 import useAuth from '../hooks/useAuth.hook';
+import { selectChannels, selectCurrentChannelId, selectMessages } from '../store/slices/selectors';
 
 const MessageItem = ({ msg, user }) => {
   const { body, username, id } = msg;
@@ -109,8 +110,9 @@ const Messages = () => {
   const chatApi = useSocketApi();
   const { user } = useAuth();
   const { t } = useTranslation();
-  const messages = useSelector((state) => state.messages.messages);
-  const { channels, currentChannelId } = useSelector((state) => state.channels);
+  const messages = useSelector(selectMessages);
+  const channels = useSelector(selectChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const currentChannel = channels.find((c) => c.id === currentChannelId);
   const currentChannelMessages = messages.filter(
     (msg) => msg.channelId === currentChannelId,

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { hideModal } from '../../store/slices/modalsSlice';
 import useSocketApi from '../../hooks/useSocketApi.hook';
+import { selectCurrentChannelId } from '../../store/slices/selectors';
 
 const ModalBody = ({ dispatch, t, handleRemove }) => (
   <Modal show onHide={() => dispatch(hideModal())}>
@@ -37,7 +38,7 @@ const ModalBody = ({ dispatch, t, handleRemove }) => (
 
 const RemoveChannelModal = () => {
   const dispatch = useDispatch();
-  const channelId = useSelector((state) => state.channels.currentChannelId);
+  const channelId = useSelector(selectCurrentChannelId);
   const chatApi = useSocketApi();
   const { t } = useTranslation();
 

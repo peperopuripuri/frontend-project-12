@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { setCurrentChannelId } from '../store/slices/channelsSlice';
 import { showModal } from '../store/slices/modalsSlice';
+import { selectChannels, selectCurrentChannelId } from '../store/slices/selectors';
 
 const ChannelButton = ({
   id, name, currentChannelId, t, onClick,
@@ -147,7 +148,8 @@ const renderChannels = (
 
 const Channels = () => {
   const dispatch = useDispatch();
-  const { channels, currentChannelId } = useSelector((state) => state.channels);
+  const channels = useSelector(selectChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
   const { t } = useTranslation();
 
   const handleChannelClick = (id) => {
