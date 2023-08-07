@@ -59,7 +59,7 @@ const RemovableChannel = ({
         >
           {name}
         </Button>
-
+        {id === currentChannelId && (
         <Dropdown>
           <Dropdown.Toggle
             split
@@ -80,6 +80,7 @@ const RemovableChannel = ({
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        )}
       </div>
     </li>
   );
