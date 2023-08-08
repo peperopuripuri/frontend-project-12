@@ -51,37 +51,36 @@ const RemovableChannel = ({
 
   return (
     <li key={id} className="nav-item w-100">
-      <div className="d-flex">
+      <div className="flex-grow-1">
         <Button
           variant={handlerVariant()}
           className="w-100 rounded-0 text-start text-truncate"
           onClick={handleChannelClick}
         >
+          #
+          {' '}
           {name}
         </Button>
-        {id === currentChannelId && (
-        <Dropdown>
-          <Dropdown.Toggle
-            split
-            variant={handlerVariant()}
-            id={`dropdown-split-${id}`}
-          >
-            <span className="visually-hidden">
-              {t('channels.dropdownLabel')}
-            </span>
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu align="right">
-            <Dropdown.Item onClick={handleRenameClick}>
-              {t('channels.rename')}
-            </Dropdown.Item>
-            <Dropdown.Item onClick={handleDeleteClick}>
-              {t('channels.delete')}
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        )}
       </div>
+      {id === currentChannelId && (
+      <Dropdown className="ml-2">
+        <Dropdown.Toggle
+          variant={handlerVariant()}
+          id={`dropdown-split-${id}`}
+        >
+          {t('channels.dropdownLabel')}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={handleRenameClick}>
+            {t('channels.rename')}
+          </Dropdown.Item>
+          <Dropdown.Item onClick={handleDeleteClick}>
+            {t('channels.delete')}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      )}
     </li>
   );
 };
