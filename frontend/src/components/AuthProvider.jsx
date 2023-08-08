@@ -1,26 +1,23 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
 const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(currentUser || null);
 
-  const logIn = useCallback((userData) => {
+  const logIn = (userData) => {
     localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
-  }, []);
+  };
 
-  const logOut = useCallback(() => {
+  const logOut = () => {
     localStorage.removeItem('user');
     setUser(null);
-  }, []);
+  };
 
-  const getAuthHeaders = useCallback(
-    () => ({
-      headers: { Authorization: `Bearer ${user.token}` },
-    }),
-    [user],
-  );
+  const getAuthHeaders = () => ({
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const authValue = {

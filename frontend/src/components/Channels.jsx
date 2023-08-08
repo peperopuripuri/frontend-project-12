@@ -67,6 +67,7 @@ const RemovableChannel = ({
         <Dropdown.Toggle
           variant={handlerVariant()}
           id={`dropdown-split-${id}`}
+          className="no-caret"
         >
           {t('channels.dropdownLabel')}
         </Dropdown.Toggle>

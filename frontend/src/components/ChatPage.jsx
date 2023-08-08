@@ -4,7 +4,8 @@ import {
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Header from './Header';
 import Channels from './Channels';
 import Messages from './Messages';
@@ -44,16 +45,21 @@ const ChatPage = () => {
   const dispatch = useDispatch();
   const { getAuthHeaders } = useAuth();
   const modalType = useSelector(selectModalType);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getData = async () => {
-      const response = await axios.get(routes.dataPath(), getAuthHeaders());
-      const { data } = response;
-      dispatch(setChannels(data.channels));
-      dispatch(setMessages(data.messages));
+      try {
+        const response = await axios.get(routes.dataPath(), getAuthHeaders());
+        const { data } = response;
+        dispatch(setChannels(data.channels));
+        dispatch(setMessages(data.messages));
+      } catch (error) {
+        toast.error(t('toast.error'));
+      }
     };
     getData();
-  }, [dispatch, getAuthHeaders]);
+  }, [dispatch, getAuthHeaders, t]);
 
   return <ChatBody renderModal={renderModal} modalType={modalType} />;
 };
