@@ -1,6 +1,3 @@
 .main_chat {
     height: 85vh !important;
 }
-.no-caret::after {
-  display: none !important;
-}
