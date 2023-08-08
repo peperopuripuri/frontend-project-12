@@ -72,16 +72,14 @@ const RemovableChannel = ({
               {t('channels.dropdownLabel')}
             </span>
           </Dropdown.Toggle>
-          {id === currentChannelId && (
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={handleRenameClick}>
-                {t('channels.rename')}
-              </Dropdown.Item>
-              <Dropdown.Item onClick={handleDeleteClick}>
-                {t('channels.delete')}
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          )}
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleRenameClick}>
+              {t('channels.rename')}
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleDeleteClick}>
+              {t('channels.delete')}
+            </Dropdown.Item>
+          </Dropdown.Menu>
         </Dropdown>
       </div>
     </li>
