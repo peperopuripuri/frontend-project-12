@@ -43,12 +43,16 @@ const RemoveChannelModal = () => {
   const { t } = useTranslation();
 
   const handleRemove = useCallback(async () => {
-    try {
-      await chatApi.removeChannel({ id: channelId });
-      dispatch(hideModal());
-      toast.success(t('toast.remove'));
-    } catch (err) {
-      toast.error(t('toast.error'));
+    if (channelId === 1 || channelId === 2) {
+      toast.error(t('нельзя'));
+    } else {
+      try {
+        await chatApi.removeChannel({ id: channelId });
+        dispatch(hideModal());
+        toast.success(t('toast.remove'));
+      } catch (err) {
+        toast.error(t('toast.error'));
+      }
     }
   }, [chatApi, channelId, dispatch, t]);
 

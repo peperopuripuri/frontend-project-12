@@ -111,12 +111,16 @@ const RenameChannelModal = () => {
   }, []);
 
   const handleRename = async (values) => {
-    try {
-      await chatApi.renameChannel({ id: channelId, name: values.name });
-      toast.success(t('toast.rename'));
-      dispatch(hideModal());
-    } catch (err) {
-      toast.error(t('toast.error'));
+    if (channelId === 1 || channelId === 2) {
+      toast.error(t('нельзя'));
+    } else {
+      try {
+        await chatApi.renameChannel({ id: channelId, name: values.name });
+        toast.success(t('toast.rename'));
+        dispatch(hideModal());
+      } catch (err) {
+        toast.error(t('toast.error'));
+      }
     }
   };
   const validationSchema = getValidation(t, channels);
