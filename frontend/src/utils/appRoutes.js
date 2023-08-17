@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-import AuthProvider from './AuthProvider';
-import PrivateRoute from './PrivateRoute';
-import ChatPage from './ChatPage';
-import LoginPage from './LoginPage';
-import NotFoundPage from './NotFoundPage';
-import SignUpPage from './SignUpPage';
+import AuthProvider from '../components/AuthProvider';
+import PrivateRoute from '../components/PrivateRoute';
+import ChatPage from '../components/ChatPage';
+import LoginPage from '../components/LoginPage';
+import NotFoundPage from '../components/NotFoundPage';
+import SignUpPage from '../components/SignUpPage';
 
 const AppRoutes = () => (
   <AuthProvider>
